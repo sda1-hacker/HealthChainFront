@@ -185,14 +185,4 @@
     </div>
   </div>
 </template>
-<script src="../../assets/layuiadmin/layui/layui.js">
 
-</script>
-
-<script>
-  layui.config({
-    base: '../../assets/layuiadmin/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use('index');
-</script>
