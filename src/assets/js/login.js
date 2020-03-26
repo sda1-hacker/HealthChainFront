@@ -1,6 +1,5 @@
 import $ from "jquery/dist/jquery.js"
 
-
 $(function(){
     var show_num = [];
     draw(show_num);

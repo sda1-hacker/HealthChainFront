@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../views/login/login.vue'
-import register from '../views/login/register.vue'
-import admin from '../views/admin/admin.vue'
+import login from '../views/login/Login.vue'
+import register from '../views/login/Register.vue'
+import admin from '../views/admin/Admin.vue'
 Vue.use(VueRouter)
 
 const routes = [

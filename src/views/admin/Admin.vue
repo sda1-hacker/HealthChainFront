@@ -108,11 +108,7 @@
                 <cite>班级管理</cite>
               </a>
               <dl class="layui-nav-child">
-              	<!--
-                  	作者：1451555394@qq.com
-                  	时间：2018-11-26
-                  	描述：班级管理关联页
-                  -->
+
               	<dd>
               		<a lay-href="/class/queryAdminClass" target="_blank">查看班级信息</a>
               	</dd>
@@ -185,4 +181,6 @@
     </div>
   </div>
 </template>
+<script src="../../assets/js/admin.js" scoped>
 
+</script>
