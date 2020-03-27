@@ -182,6 +182,7 @@
   </div>
 </template>
 <script>
+
 export default {
   mounted(){
     layui.use(['layer'], function(){

@@ -61,17 +61,13 @@ export default {
   methods: {
     login(){
       const that = this;
-      this.$http.get('test.json', {}).then(function({data: res}){
+      this.$http.get('/admin/login.json', {}).then(function({data: res}){
         if('200' === res._code){
-          if(that.account === res._data.account && that.password === res._data.password){
-            // 设置token，记录登录状态
-            window.sessionStorage.setItem('token', res._data.token.toString())
-            that.$router.push("/admin")
-          } else {
-            layui.use(['layer'], function(){layui.layer.msg('用户名或密码不正确')})
-          }
+          // 设置token，记录登录状态
+          window.sessionStorage.setItem('token', res._data.token.toString())
+          that.$router.push("/admin")
         } else{
-          layui.use(['layer'], function(){layui.layer.msg('请求出错')})
+          layui.use(['layer'], function(){layui.layer.msg('用户名或密码不正确')})
         }
       })
     }
