@@ -38,6 +38,10 @@ const routes = [
     component: register
   },
   {
+    path: '/admin',
+    component: admin
+  },
+  {
     path:'/adminManage',
     component:adminManage
   },
@@ -110,6 +114,18 @@ const router = new VueRouter({
   mode:'history',
   base:__dirname,
   routes
+})
+
+/* 挂载路由导航守卫，防止访问没有权限的页面 */
+router.beforeEach((to, from, next) => {
+  if(to.path === '/login' || to.path === '/register'){
+    next()
+    return;
+  }
+  const token = window.sessionStorage.getItem('token')
+  // 如果token不存在，则重定向到登录页面
+  if(!token) next('/login')
+  next()
 })
 
 export default router
