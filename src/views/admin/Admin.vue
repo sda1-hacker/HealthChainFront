@@ -49,11 +49,11 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite id="subadminname">普管</cite>
+              <cite id="subadminname">超管</cite>
             </a>
             <dl class="layui-nav-child">
 
-              <dd><a href="/art/logout">退出</a></dd>
+              <dd><a href="/login">退出</a></dd>
             </dl>
           </li>
 
@@ -81,70 +81,79 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a >个人主页</a>
+                  <a>个人主页</a>
                 </dd>
               </dl>
             </li>
             <li data-name="app" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="课程管理" lay-direction="2">
+              <a href="javascript:;" lay-tips="人员管理" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
-                <cite>课程管理</cite>
+                <cite>人员管理</cite>
               </a>
               <dl class="layui-nav-child">
-
-                <!--
-                  	作者：1451555394@qq.com
-                  	时间：2018-11-26
-                  	描述：课程管理关联页
-                  -->
                 <dd>
-              		<a lay-href="/course/queryAdminCourse" target="_blank">查看课程信息</a>
+              		<a lay-href="/adminManage" target="_blank">管理员管理</a>
+              	</dd>
+                <dd>
+              		<a lay-href="/organManage" target="_blank">机构管理</a>
+              	</dd>
+                <dd>
+              		<a lay-href="/userManage" target="_blank">用户管理</a>
               	</dd>
               </dl>
             </li>
-            <li data-name="template" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="班级管理" lay-direction="2">
+            <li data-name="template" class="layui-nav-item" >
+              <a href="javascript:;" lay-tips="机构审核" lay-direction="1">
                 <i class="layui-icon layui-icon-template"></i>
-                <cite>班级管理</cite>
+                <a lay-href="/organVerify" target="_blank" style="padding-left:30px;">机构审核</a>
+
               </a>
-              <dl class="layui-nav-child">
-
-              	<dd>
-              		<a lay-href="/class/queryAdminClass" target="_blank">查看班级信息</a>
-              	</dd>
-
-              </dl>
             </li>
 
             <li data-name="senior" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="学生管理" lay-direction="2">
+              <a href="javascript:;" lay-tips="服务管理" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
-                <cite>学生管理</cite>
+                <cite>服务管理</cite>
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a lay-href="/student/queryAdminStudent">管理学生</a>
+                  <a lay-href="/serviceVerify">服务审核</a>
                 </dd>
                 <dd>
-                  <a lay-href="/selected/gotoPagecheck">核对收费</a>
+                  <a lay-href="/serviceManage">服务管理</a>
                 </dd>
               </dl>
             </li>
             <li data-name="senior" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="文件管理" lay-direction="2">
+              <a href="javascript:;" lay-tips="数据查看" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
-                <cite>文件管理</cite>
+                <a lay-href="/getData" style="padding-left:30px;">数据查看</a>
+                <!-- <cite>数据查看</cite> -->
               </a>
-              <dl class="layui-nav-child">
-                <dd>
-                  <a lay-href="/file/queryFile">查看文件目录</a>
-                </dd>
-              </dl>
+            </li>
+            <li data-name="senior" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="矿机信息" lay-direction="2">
+                <i class="layui-icon layui-icon-senior"></i>
+                <a lay-href="/blockInfo" style="padding-left:30px;">矿机信息</a>
+                <!-- <cite>矿机信息</cite> -->
+              </a>
+            </li>
+            <li data-name="senior" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="我的钱包" lay-direction="2">
+                <i class="layui-icon layui-icon-senior"></i>
+                <a lay-href="/wallet" style="padding-left:30px;">我的钱包</a>
+
+              </a>
+            </li>
+            <li data-name="senior" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="日志信息" lay-direction="2">
+                <i class="layui-icon layui-icon-senior"></i>
+                <a lay-href="/logManage" style="padding-left:30px;">日志信息</a>
+              </a>
             </li>
           </ul>
         </div>
       </div>
-
       <!-- 页面标签 -->
       <div class="layadmin-pagetabs" id="LAY_app_tabs">
         <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -182,16 +191,15 @@
   </div>
 </template>
 <script>
+export default{
+  // mounted(){
+  //   layui.use(['layer'], function(){
+  //     var layer = layui.layer //弹层
+  //     //向世界问个好
+  //     layer.msg('!');
 
-export default {
-  mounted(){
-    layui.use(['layer'], function(){
-    var layer = layui.layer //弹层
-    //向世界问个好
-    layer.msg('!');
-
-    });
-    console.log("kkkkkkkkkkkkkkkkk")
-  }
+  //   });
+  //   console.log("kkkkkkkkkkkkkkkkk")
+  // }
 }
 </script>
