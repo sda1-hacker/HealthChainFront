@@ -44,7 +44,7 @@
         <div class="layui-trans layui-form-item layadmin-user-login-other">
 
 
-          <a href="/login" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+          <a href="/" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
           <a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>
         </div>
       </div>
