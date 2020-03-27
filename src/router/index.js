@@ -27,6 +27,10 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect: '/login'
+  },
+  {
+    path: '/admin',
     component: admin
   },
   {
