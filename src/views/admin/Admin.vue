@@ -181,6 +181,16 @@
     </div>
   </div>
 </template>
-<script src="../../assets/js/admin.js" scoped>
+<script>
+export default {
+  mounted(){
+    layui.use(['layer'], function(){
+    var layer = layui.layer //弹层
+    //向世界问个好
+    layer.msg('!');
 
+    });
+    console.log("kkkkkkkkkkkkkkkkk")
+  }
+}
 </script>
