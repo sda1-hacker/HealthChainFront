@@ -32,15 +32,6 @@ const router = new VueRouter({
 })
 
 /* 挂载路由导航守卫，防止访问没有权限的页面 */
-<<<<<<< HEAD
-// router.beforeEach((to, from, next) => {
-//   if(to.path === '/login') next()
-//   const token = window.sessionStorage.getItem('token')
-//   // 如果token不存在，则重定向到登录页面
-//   if(!token) next('/login')
-//   next()
-// })
-=======
 router.beforeEach((to, from, next) => {
   if((to.path === '/login') || (to.path === '/register')){
     next()
@@ -51,6 +42,5 @@ router.beforeEach((to, from, next) => {
   if(!token) next('/login')
   next()
 })
->>>>>>> hupeng
 
 export default router
