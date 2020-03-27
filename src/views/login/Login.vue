@@ -65,8 +65,8 @@ export default {
         if('200' === res._code){
           // 设置token，记录登录状态
           window.sessionStorage.setItem('token', res._data.token.toString())
-          that.$router.push("/admin")
-        } else{
+          that.$router.push("/admin")     // 调转到admin路由
+        } else{w
           layui.use(['layer'], function(){layui.layer.msg('用户名或密码不正确')})
         }
       })
