@@ -67,10 +67,20 @@ export default{
   },
   methods:{
     register(){
+      const that = this;
       if( this.password.toString() != this.repassword.toString() ){
         layui.layer.msg('两次输入的密码不一致')
         return
       }
+      this.$http.get('/admin/register.json', {}).then(function({data: res}){
+        if('200' === res._code){
+          // window.sessionStorage.setItem('token', res._data.token.toString())
+          layui.use(['layer'], function(){layui.layer.msg('注册成功')})
+          // that.$router.push("/login")
+        } else{
+          layui.use(['layer'], function(){layui.layer.msg('注册失败')})
+        }
+      })
     }
   }
 }
