@@ -1,6 +1,11 @@
 <template>
-<table class="layui-hide" id="demo" lay-filter="test">
-</table>
+  <div class="layui-form-item">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+    <script type="text/html" id="barDemo">
+      <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
+    </script>
+  </div>
 </template>
 
 <script>
@@ -23,7 +28,7 @@ export default{
         ,url: '/layuiadmin/json/table/organization.js' //数据接口
         ,title: '机构用户表'
         ,page: true //开启分页
-        ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+        ,toolbar: 'true' //开启工具栏，只显示右侧工具栏
     //     ,totalRow: true //开启合计行
         ,cols: [[ //表头
           {type: 'checkbox', fixed: 'left'}
@@ -36,9 +41,30 @@ export default{
           ,{field: 'certificateFiles', title: '认证文件', width: 200, align:'center'}
           ,{field: 'certificateTime', title: '认证时间', width: 100, align:'center'}
           ,{field: 'balance', title: '余额', width: 135, sort: true, totalRow: true, align:'center'}
-          ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+          ,{fixed: 'right', title:'操作',  width: 165, align:'center', toolbar: '#barDemo'}
         ]]
       });
+        //监听行工具事件
+      table.on('tool(test)', function(obj){
+        var data = obj.data;
+        //console.log(obj)
+        if(obj.event === 'del'){
+          layer.confirm('真的删除行么', function(index){
+            obj.del();
+            layer.close(index);
+          });
+        } else if(obj.event === 'edit'){
+          layer.prompt({
+            formType: 2
+            ,value: data.email
+          }, function(value, index){
+            obj.update({
+              email: value
+            });
+            layer.close(index);
+          });
+        }
+      });
     });
   }
 }

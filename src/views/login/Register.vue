@@ -68,15 +68,24 @@ export default{
   methods:{
     register(){
       const that = this;
+      // if(this.tel.toString == '' || this.vercode.toString == null || this.password.toString == null || this.repassword.toString == null)
+      // {
+      //   layer.msg("不能为空")
+      //   return
+      // }
+      //判断两次输入的密码是否一致
       if( this.password.toString() != this.repassword.toString() ){
         layui.layer.msg('两次输入的密码不一致')
         return
       }
+      //如何判断用户是否同意用户协议
+
+      //判断是否注册成功
       this.$http.get('/admin/register.json', {}).then(function({data: res}){
         if('200' === res._code){
           // window.sessionStorage.setItem('token', res._data.token.toString())
           layui.use(['layer'], function(){layui.layer.msg('注册成功')})
-          // that.$router.push("/login")
+          that.$router.push("/login")
         } else{
           layui.use(['layer'], function(){layui.layer.msg('注册失败')})
         }
