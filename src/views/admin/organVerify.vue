@@ -33,8 +33,7 @@ export default{
         ,toolbar: 'true' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
     //     ,totalRow: true //开启合计行
         ,cols: [[ //表头
-          {type: 'checkbox', fixed: 'left'}
-          ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left', align:'center'}
+          ,{field: 'id', title: 'ID', unresize:'false',sort: true, fixed: 'left', align:'center'}
           ,{field: 'account', title: '用户账号', width:100, align:'center'}
           ,{field: 'ethaddress', title: '以太坊账号', width: 100, align:'center'}
           ,{field: 'organizationName', title: '机构名', width:80, align:'center'}

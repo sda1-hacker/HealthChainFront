@@ -29,19 +29,17 @@ export default{
         ,title: '机构用户表'
         ,page: true //开启分页
         ,toolbar: 'true' //开启工具栏，只显示右侧工具栏
-    //     ,totalRow: true //开启合计行
         ,cols: [[ //表头
-          {type: 'checkbox', fixed: 'left'}
-          ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：', align:'center'}
-          ,{field: 'account', title: '用户账号', width:100, align:'center'}
-          ,{field: 'ethaddress', title: '以太坊账号', width: 100, align:'center'}
-          ,{field: 'organizationName', title: '机构名', width:80, align:'center'}
-          ,{field: 'type', title: '机构类型', width:100, align:'center'}
-          ,{field: 'certificateResult', title: '认证结果', width:150, align:'center'}
-          ,{field: 'certificateFiles', title: '认证文件', width: 200, align:'center'}
-          ,{field: 'certificateTime', title: '认证时间', width: 100, align:'center'}
-          ,{field: 'balance', title: '余额', width: 135, sort: true, totalRow: true, align:'center'}
-          ,{fixed: 'right', title:'操作',  width: 165, align:'center', toolbar: '#barDemo'}
+          ,{field: 'id', title: 'ID', unresize:'false',sort: true, align:'center'}
+          ,{field: 'account', title: '用户账号', align:'center'}
+          ,{field: 'ethaddress', title: '以太坊账号', align:'center'}
+          ,{field: 'organizationName', title: '机构名', align:'center'}
+          ,{field: 'type', title: '机构类型', align:'center'}
+          ,{field: 'certificateResult', title: '认证结果', align:'center'}
+          ,{field: 'certificateFiles', title: '认证文件', align:'center'}
+          ,{field: 'certificateTime', title: '认证时间', align:'center'}
+          ,{field: 'balance', title: '余额', sort: true, align:'center'}
+          ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo'}
         ]]
       });
         //监听行工具事件
@@ -49,7 +47,7 @@ export default{
         var data = obj.data;
         //console.log(obj)
         if(obj.event === 'del'){
-          layer.confirm('真的删除行么', function(index){
+          layer.confirm('真的删除这个机构吗', function(index){
             obj.del();
             layer.close(index);
           });
