@@ -15,6 +15,8 @@ import serviceVerify from '../views/admin/serviceVerify.vue'
 import userManage from '../views/admin/userManage.vue'
 import wallet from '../views/admin/wallet.vue'
 
+import userInfo from '../views/admin/userInfo.vue'
+
 import organizationOrg from "../views/organization/Organization.vue"
 import authenticationOrg from '../views/organization/authentication.vue'
 import getDataOrg from '../views/organization/getData.vue'
@@ -112,6 +114,10 @@ const routes = [
   {
     path:'/walletOrg',
     component:walletOrg
+  },
+  {
+    path: '/userInfo',
+    component: userInfo
   }
 ]
 const router = new VueRouter({
