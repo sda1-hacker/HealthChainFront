@@ -13,10 +13,11 @@
 </div>
 </template>
 <script>
+
 export default {
   data(){
     return {
-
+      table: {}
     }
   },
   mounted(){
@@ -31,9 +32,9 @@ export default {
       }
       const that = this
       layui.use('table', function(){
-        var table = layui.table
+        that.table = layui.table
         // 获取数据
-        table.render({
+        that.table.render({
           id: 'listReload',
           elem: '#adminTable'
           ,height: 420
@@ -56,7 +57,7 @@ export default {
         })
 
         // 监听工具条
-        table.on('toolbar(adminUpadte)', function(obj){
+        that.table.on('toolbar(adminUpadte)', function(obj){
           if(obj.event === 'add'){
             layer.open({
               type: 1,
@@ -71,7 +72,7 @@ export default {
                 admin.account = document.getElementById('account').value;
                 admin.password = document.getElementById('password').value;
                 admin.authority = document.getElementById('authority').value;
-                that.addAdmin(table, admin, index)
+                that.addAdmin(admin, index)
               }
             })
           } else{
@@ -79,11 +80,10 @@ export default {
           }
         });
 
-        // 监听删除和查看按钮
-        table.on('tool(adminUpadte)', function(obj){
+        // 监听删除和修改按钮
+        that.table.on('tool(adminUpadte)', function(obj){
           switch(obj.event){
             case 'edit':
-              // table.reload("listReload", {data: [{"id": 1}]})
               layer.open({
                 type: 1,
                 title: '修改管理员',
@@ -107,14 +107,12 @@ export default {
               });
               break;
           }
-
-            //向服务端发送删除指令
         })
       })
     },
 
     // 增加管理员
-    addAdmin(table, admin, index){
+    addAdmin(admin, index){
       const that = this
       if(admin.account === '' || admin.password === '' || admin.authority === ''){
         layer.msg('字段不能为空')
@@ -123,7 +121,7 @@ export default {
       this.$http.get('/admin/addAdmin.json', {}).then(({data: res}) => {
         if('200' === res._code){
           this.$http.get('/admin/findAdminList.json', {}).then(({data: res}) => {
-            table.reload("listReload", {data: res._data})
+            that.table.reload("listReload", {data: res._data})
             layer.close(index);
             layer.msg('添加成功')
           })
