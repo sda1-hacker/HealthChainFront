@@ -17,7 +17,7 @@ import wallet from '../views/admin/wallet.vue'
 
 import userInfo from '../views/admin/userInfo.vue'
 
-import organizationOrg from "../views/organization/Organization.vue"
+import organization from "../views/organization/Organization.vue"
 import authenticationOrg from '../views/organization/authentication.vue'
 import getDataOrg from '../views/organization/getData.vue'
 import myInfoOrg from '../views/organization/myInfo.vue'
@@ -52,8 +52,8 @@ const routes = [
     component:adminManage
   },
   {
-    path: '/organizationOrg',
-    component: organizationOrg
+    path: '/organization',
+    component: organization
   },
   {
     path:'/blockInfo',
