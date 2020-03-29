@@ -1,5 +1,5 @@
 {
-  "_code": 200,
+  "_code": "200",
   "_data": {
     "medicalServiceList": {
       "code": 0,
@@ -9,6 +9,22 @@
         {
           "id": "1",
           "serviceName": "养老咨询",
+          "serviceDetails": "emmmmmm...",
+          "cost": "0.5",
+          "oid": "12",
+          "auditResult": "true"
+        },
+        {
+          "id": "2",
+          "serviceName": "医疗保健",
+          "serviceDetails": "emmmmmm...",
+          "cost": "0.5",
+          "oid": "12",
+          "auditResult": "true"
+        },
+        {
+          "id": "3",
+          "serviceName": "全面体检",
           "serviceDetails": "emmmmmm...",
           "cost": "0.5",
           "oid": "12",
