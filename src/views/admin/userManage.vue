@@ -44,7 +44,7 @@ export default {
               ,height: 420
               ,title: '用户表'
               ,page: true //开启分页
-              ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+              ,toolbar: 'true' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
               ,totalRow: true //开启合计行
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -53,17 +53,17 @@ export default {
               }
               ,data: vueObj.userList     // 列表[]
               ,cols: [[
-                {field:'id', title: 'id', sort: true}
-                ,{field:'account', title: '用户名'}
-                ,{field:'nickName', title: '昵称'}
-                ,{field:'password', title: '密码'}
-                ,{field:'ethAddress', title: '以太坊地址'}
-                ,{field:'sex', title: '性别'}
-                ,{field:'address', title: '住址'}
-                ,{field:'birth', title: '出生日期'}
-                ,{field:'tel', title: '电话'}
-                ,{field:'balance', title: '账户余额'}
-                ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}  // 工具栏
+                {field:'id', title: 'id', sort: true, align:'center'}
+                ,{field:'account', title: '用户名', align:'center'}
+                ,{field:'nickName', title: '昵称', align:'center'}
+                ,{field:'password', title: '密码', align:'center'}
+                ,{field:'ethAddress', title: '以太坊地址', align:'center'}
+                ,{field:'sex', title: '性别', align:'center'}
+                ,{field:'address', title: '住址', align:'center'}
+                ,{field:'birth', title: '出生日期', align:'center'}
+                ,{field:'tel', title: '电话', align:'center'}
+                ,{field:'balance', title: '账户余额', align:'center'}
+                ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo', align:'center'}  // 工具栏
               ]]
             });
 
@@ -79,7 +79,7 @@ export default {
                   title: "用户信息",
                   content: "/userInfo",  // 相当于发送了一个get请求，得到一个页面，页面在这里以弹窗的形式显示,  返回一个vue组件，在组件里面加载数据
                   shadeClose: true,
-                  area: ["90%", "588px"],
+                  area: ["80%", "300px"],
                   maxmin: true
                 })
 
