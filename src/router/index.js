@@ -15,7 +15,7 @@ import serviceVerify from '../views/admin/serviceVerify.vue'
 import userManage from '../views/admin/userManage.vue'
 import wallet from '../views/admin/wallet.vue'
 
-import userInfo from '../views/admin/userInfo.vue'
+import userInfo from '../components/content/userInfo.vue' // 在对话框中打开的页面
 
 import organization from "../views/organization/Organization.vue"
 import authenticationOrg from '../views/organization/authentication.vue'
