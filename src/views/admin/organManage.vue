@@ -49,7 +49,7 @@ export default{
         var data = obj.data;
         //console.log(obj)
         if(obj.event === 'del'){
-          layer.confirm('真的删除行么', function(index){
+          layer.confirm('真的删除这个机构吗', function(index){
             obj.del();
             layer.close(index);
           });
