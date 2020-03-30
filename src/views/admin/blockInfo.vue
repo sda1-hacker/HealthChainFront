@@ -89,8 +89,15 @@ export default {
     }
   },
   mounted(){
+    const that = this
     this.$http.get('/admin/getMinerInfo.json', {}).then(({data: res}) => {this.minerInfo = res._data; this.currentBlockHeight = parseInt(res._data.blockNumber)})
     this.$http.get('/admin/getBlockInfo.json', {}).then(({data: res}) => {this.blockInfo = res._data;})
+
+    // 设置计时器，每个12s请求一次区块信息
+    setInterval(function(){
+      console.log(that.currentBlockHeight)
+      that.$http.get('/admin/getMinerInfo.json', {}).then(({data: res}) => {that.minerInfo = res._data; that.currentBlockHeight = parseInt(res._data.blockNumber)})
+    }, 12000)
   },
   methods: {
     getBlockInfoByNumber(number){
