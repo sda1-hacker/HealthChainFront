@@ -34,6 +34,7 @@
           <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
         </div> -->
         <div class="layui-form-item">
+          <a href="/register" class="layadmin-user-jump-change layadmin-link layui-hide-xs">没有账号？去注册>></a>
           <button @click="login" class="layui-btn layui-btn-fluid btn" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
         </div>
         <!-- <div class="layui-trans layui-form-item layadmin-user-login-other">
