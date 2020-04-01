@@ -24,6 +24,7 @@ import myInfoOrg from '../views/organization/myInfo.vue'
 import serviceManageOrg from '../views/organization/serviceManage.vue'
 import uploadDataOrg from '../views/organization/uploadData.vue'
 import walletOrg from '../views/organization/wallet.vue'
+import updatePasswordOrg from '../views/organization/updatePassword.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -118,6 +119,10 @@ const routes = [
   {
     path: '/userInfo',
     component: userInfo
+  },
+  {
+    path: '/updatePasswordOrg',
+    component:updatePasswordOrg
   }
 ]
 const router = new VueRouter({

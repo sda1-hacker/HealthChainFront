@@ -46,7 +46,7 @@
               <cite id="subadminname">机构</cite>
             </a>
             <dl class="layui-nav-child">
-
+              <dd><a lay-href="/updatePasswordOrg">修改密码</a></dd>
               <dd><a href="/login">退出</a></dd>
             </dl>
           </li>
