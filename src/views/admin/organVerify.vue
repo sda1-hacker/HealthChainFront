@@ -1,74 +1,120 @@
 <template>
-<div class="layui-form-item">
-    <table class="layui-hide" id="demo" lay-filter="test"></table>
-    <script type="text/html" id="barDemo">
-      <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    </script>
+<div>
+  <div id="container">
+    <div class="layui-inline">
+      <table style="display: inline-block" class="layui-hide" id="orgAuditTable" lay-filter="orgAuditUpadte"></table>
+    </div>
   </div>
-
+  <script type="text/html" id="handler">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+  </script>
+</div>
 </template>
-
-
 <script>
-export default{
+export default {
+  data(){
+    return {
+      table: {}
+    }
+  },
   mounted(){
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
-      var laydate = layui.laydate //日期
-      ,laypage = layui.laypage //分页
-      ,layer = layui.layer //弹层
-      ,table = layui.table //表格
-      ,carousel = layui.carousel //轮播
-      ,upload = layui.upload //上传
-      ,element = layui.element //元素操作
-      ,slider = layui.slider; //滑块
+    this.initTable()
+  },
+  methods: {
+    // 初始化表格
+    initTable(){
+      const that = this
+      layui.use('table', function(){
+        that.table = layui.table
+        // 获取数据
+        that.table.render({
+          id: 'listReload',
+          elem: '#orgAuditTable'
+          ,height: 420
+          ,title: '审核表'
+          ,url:http+'/api/admin/getOrgInfoList'
+          ,method:'post'
+          ,where:{token:window.sessionStorage.getItem('token')}
+          ,page: true //开启分页
+          ,toolbar: 'true'
+          ,cols: [[ //表头
+          {field: 'account', title: '机构账号', align:'center'}
+          ,{field: 'organizationName', title: '机构名', align:'center'}
+          ,{field: 'type', title: '机构类型', align:'center'}
+          ,{field: 'introduction', title: '机构介绍', align:'center'}
+          ,{field: 'tel', title: '机构电话', align:'center'}
+          ,{field: 'certificateResult', title: '认证状态', align:'center'}
+          ,{field: 'certificateFiles', title: '认证文件', align:'center'}
+          ,{field: 'certificateTime', title: '认证时间', align:'center'}
+          ,{ title:'操作', align:'center', toolbar: '#handler'}
+          ]]
+        })
 
-      var table = layui.table;
-      //执行一个 table 实例
-      table.render({
-        elem: '#demo'
-        ,height: 420
-        ,url: '/layuiadmin/json/table/organizationstatus.js' //数据接口
-        ,title: '用户审核表'
-        ,page: true //开启分页
-        ,toolbar: 'true' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-    //     ,totalRow: true //开启合计行
-        ,cols: [[ //表头
-          ,{field: 'id', title: 'ID', unresize:'false',sort: true, fixed: 'left', align:'center'}
-          ,{field: 'account', title: '用户账号', width:100, align:'center'}
-          ,{field: 'ethaddress', title: '以太坊账号', width: 100, align:'center'}
-          ,{field: 'organizationName', title: '机构名', width:80, align:'center'}
-          ,{field: 'type', title: '机构类型', width: 100, align:'center'}
-          ,{field: 'certificateStatus', title: '审核状态', width:150, align:'center'}
-          ,{fixed: 'right',title:'操作', width: 165, align:'center', toolbar: '#barDemo'}
-        ]]
-      });
-      table.on('tool(test)', function(obj){
-              var data = obj.data;
-              //console.log(obj)
-              if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                  obj.del();
-                  layer.close(index);
-                });
-              } else if(obj.event === 'edit'){
-                //更新机构管理中的认证状态
+        // 监听修改按钮
+        that.table.on('tool(orgAuditUpadte)', function(obj){
+          var data = obj.data;
+          switch(obj.event){
+            case 'edit':
+              layer.open({
+                type: 1,
+                title: '修改认证状态',
+                skin: 'layui-layer-molv',
+                content: that.getAuditDialog(obj.data),
+                btn: ['确认', '取消'],
+                yes: function (index, layero) {
+                  const org = {}
 
-                //更新当前表中的认证状态
-                layer.prompt({
-                  formType: 2
-                  ,value: data.certificateStatus
-                }, function(value, index){
-                  obj.update({
-                    certificateStatus: value
-                  });
-                  layer.close(index);
-                });
-              }
-            });
-    });
+                  org.id = data.id;
+                  org.certificateResult = document.getElementById('certificateResult').value
+                  that.updateOrgAudit(obj, org, index)
+                }
+              })
+              break;
+          }
+        })
+      })
+    },
+
+    // 更新机构审核状态
+    updateOrgAudit(obj, org, index){
+      const that = this
+      layui.use('table', function(){
+        var layer = layui.layer;
+        if(org.certificateResult === ''){
+          layer.msg('字段不能为空')
+          return
+        }
+        if(org.certificateResult === '审核中' || org.certificateResult === '审核通过' || org.certificateResult === '审核未通过'){
+          that.$http.post(http+'/api/admin/updateOrgInfo', {token:window.sessionStorage.getItem('token'),id:org.id,certificateResult:org.certificateResult}).then(({data: res}) => {
+          if('200' === res._code){
+            layer.close(index);
+            layer.msg(res._msg)
+            setTimeout(function () {
+              location.reload()
+            }, 800);
+          } else {
+            layer.close(index);
+            layer.msg(res._msg)
+          }
+        })
+        }else{
+          layer.msg('只能是 "审核中" "审核通过" "审核未通过" ')
+          return
+        }
+
+      })
+    },
 
 
+    // 获取修改审核对话框
+    getAuditDialog(org, readonly=''){
+      return `<div style="padding: 15px 50px 15px 15px"><label for="orgAudit">认证状态：</label><input id="certificateResult" ${readonly} value="${org===undefined?'':org.certificateResult}" /><br><br></div>`
+    }
   }
 }
-
-</script>>
+</script>
+<style scoped>
+  #container{
+    text-align: center;
+  }
+</style>
