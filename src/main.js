@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://127.0.0.1:8080/api'
 Vue.prototype.$http = axios
 
+window.http = 'http://localhost:3000'
 
 import "../public/layuiadmin/style/admin.css"
 import "../public/layuiadmin/style/login.css"

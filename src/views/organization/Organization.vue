@@ -43,10 +43,10 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite id="subadminname">机构</cite>
+              <cite id="account">机构</cite>
             </a>
             <dl class="layui-nav-child">
-
+              <dd><a lay-href="/updatePasswordOrg">修改密码</a></dd>
               <dd><a href="/login">退出</a></dd>
             </dl>
           </li>
@@ -64,7 +64,7 @@
       <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
           <div class="layui-logo" lay-href="/homePage">
-            <span id="subSchoolName">机构用户</span>
+            <span  id="orgName">机构用户</span>
           </div>
 
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
@@ -95,7 +95,7 @@
             <li data-name="senior" class="layui-nav-item">
               <a href="javascript:;" lay-tips="个人信息" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
-                <a lay-href="/myInfo" style="padding-left:30px;">个人信息</a>
+                <a lay-href="/myInfoOrg" style="padding-left:30px;">个人信息</a>
               </a>
             </li>
             <li data-name="senior" class="layui-nav-item">
@@ -156,3 +156,27 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  mounted(){
+    layui.use(['layer'], function(){
+      var layer = layui.layer;
+      var $ = layui.$;
+      $.ajax({
+              url: http+"/api/org/getMyInfo",
+              type: 'POST',
+              data: {token:window.sessionStorage.getItem('token')},
+              success: function (info) {
+                if("200" === info._code){
+                  $('#orgName').html(info._data.organizationName);
+                  $('#account').html(info._data.account);
+                }
+                else{
+                  layer.msg('数据加载失败...')
+                }
+              }
+        });
+    })
+  }
+}
+</script>

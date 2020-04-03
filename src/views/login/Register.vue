@@ -35,9 +35,7 @@
           <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
           <input v-model="account" type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname" placeholder="昵称" class="layui-input">
         </div>
-        <div class="layui-form-item">
-          <input v-model="agreecheck" type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
-        </div>
+
         <div class="layui-form-item">
           <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit" @click="register">注 册</button>
         </div>
@@ -81,7 +79,7 @@ export default{
       //如何判断用户是否同意用户协议
 
       //判断是否注册成功
-      this.$http.get('/admin/register.json', {}).then(function({data: res}){
+      this.$http.get(http+'/api/admin/register', {}).then(function({data: res}){
         if('200' === res._code){
           // window.sessionStorage.setItem('token', res._data.token.toString())
           layui.use(['layer'], function(){layui.layer.msg('注册成功')})
