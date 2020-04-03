@@ -18,15 +18,12 @@
 export default {
   data(){
     return {
-      medicalServiceList: []
+      medicalServiceList: [],
     }
   },
   methods: {
     initData(vueObj){
       const that = this;
-      this.$http.get("/admin/findMedicalServiceByConditions.json", {}).then(function({data: res}){
-
-        if("200" === res._code){
 
           vueObj.medicalServiceList = res._data.medicalServiceList.data
 
@@ -43,7 +40,10 @@ export default {
             table.render({
               elem: '#demo'
               ,height: 420
-              ,title: '用户表'
+              ,title: '服务审核表'
+              ,url:http+'/api/admin/findMedicalServiceList'
+              ,method:'post'
+              ,where:{token: window.sessionStorage.getItem('token'), serviceName: '', auditResult: '审核中'}
               ,page: true //开启分页
               ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
               ,totalRow: true //开启合计行
@@ -52,7 +52,6 @@ export default {
               ,response: {
                 statusCode: 200
               }
-              ,data: vueObj.medicalServiceList     // 列表[]
               ,cols: [[
                 {field:'id', title: 'id', sort: true}
                 ,{field:'serviceName', title: '服务名称'}
@@ -70,13 +69,13 @@ export default {
                 ,layEvent = obj.event; //获得 lay-event 对应的值
                 if(layEvent === 'ispassed'){
 
-                  that.$http.get("/admin/medicalServiceIsPadded.json", {}).then(function({data: res}){
+                  that.$http.post(http + "/admin/medicalServiceIsPadded.json", {token: window.sessionStorage.getItem('token'), auditResult: '审核通过'}).then(function({data: res}){
                     layer.msg('审核通过,ok');
 
                   })
                 } else if(layEvent === 'nopassed'){
 
-                  that.$http.get("/admin/medicalServiceIsPadded.json", {}).then(function({data: res}){
+                  that.$http.post("/admin/medicalServiceIsPadded.json", {token: window.sessionStorage.getItem('token'), auditResult: '审核未通过'}).then(function({data: res}){
                     layer.msg('审核不通过..');
 
                   })
@@ -85,14 +84,6 @@ export default {
 
           });
 
-
-
-
-        }
-        else {
-          layui.use(['layer'], function(){layui.layer.msg('数据加载失败...')})
-        }
-      })
     },
 
   },

@@ -10,6 +10,72 @@
     <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <div class="layui-form-item">
+      <label class="layui-form-label">用户名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="account" readonly="readonly">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">昵称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="nickName" readonly="readonly">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">密码</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="password">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">以太坊地址</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="ethAddress" readonly="readonly">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">居住地址</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="address">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">出生日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="birth">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机号码</label>
+      <div class="layui-input-inline">
+        <input type="text" name="phone" autocomplete="off" class="layui-input" v-model="tel" >
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户余额</label>
+      <div class="layui-input-inline">
+        <input type="text" name="email" autocomplete="off" class="layui-input" v-model="balance" readonly="readonly">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="button" class="layui-btn" @click="updateUserInfo()" lay-submit lay-filter="setmyinfo">确认修改</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+      </div>
+    </div>
+</div>
+
   </div>
 
 </template>
@@ -18,7 +84,18 @@
 export default {
   data(){
     return {
-      userList: []
+      userList: [],
+
+      "id": "",
+      "account": "",
+      "nickName": "",
+      "password": "",
+      "ethAddress": "",
+      "sex": "",
+      "address": "",
+      "birth": "",
+      "tel": "",
+      "balance": ""
     }
   },
   methods: {
@@ -42,7 +119,10 @@ export default {
             table.render({
               elem: '#demo'
               ,height: 420
-              ,title: '用户表'
+              ,title: '用户管理表'
+              ,url:http+'/api/admin/getUserList'
+              ,method:'post'
+              ,where:{token: window.sessionStorage.getItem('token')}
               ,page: true //开启分页
               ,toolbar: 'true' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
               ,totalRow: true //开启合计行
@@ -74,13 +154,24 @@ export default {
               if(layEvent === 'detail'){
                 layer.msg('查看操作');
 
+                vueObj.id = data.id,
+                vueObj.account = data.account,
+                vueObj.nickName = data.nickName,
+                vueObj.password = data.password,
+                vueObj.ethAddress = data.ethAddress,
+                vueObj.sex = data.sex,
+                vueObj.address = data.address,
+                vueObj.birth = data.birth,
+                vueObj.tel = data.tel,
+                vueObj.balance = data.balance
+
                 layer.open({
-                  type: 2,
+                  type: 1,
                   title: "用户信息",
-                  content: "/userInfo",  // 相当于发送了一个get请求，得到一个页面，页面在这里以弹窗的形式显示,  返回一个vue组件，在组件里面加载数据
+                  content: $("#layuiadmin-form-useradmin"),  // 显示这个页面
                   shadeClose: true,
                   area: ["80%", "300px"],
-                  maxmin: true
+                  maxmin: true,
                 })
 
               } else if(layEvent === 'del'){
@@ -88,11 +179,8 @@ export default {
                   obj.del(); //删除对应行（tr）的DOM结构
                   layer.close(index);
                   //向服务端发送删除指令
-                  that.$http.get("/admin/userInfoData_delete.json", {}).then(function({data: res}){
-                    console.log("执行删除操作")
-                    that.userList = res._data.userList.data
-                    console.log("删除成功")
-                    console.log(that.userList)
+                  that.$http.get(http + "/api/admin/deleteUser", {token: window.sessionStorage.getItem('token'), id: that.id} ).then(function({data: res}){
+                    console.log(res._msg);
                   })
 
                 });
@@ -111,7 +199,23 @@ export default {
           layui.use(['layer'], function(){layui.layer.msg('数据加载失败...')})
         }
       })
+    },
+
+    updateUserInfo(){
+      const that = this;
+      this.$http.post(http + "/api/admin/updateUserInfo", {token: window.sessionStorage.getItem('token'), id: that.id, password: that.password}).then(function({data: res}){
+        if("200" === res._code){
+          // that.password = res._data.password,
+          // that.address = res._data.address,
+          // that.tel = res._data.tel
+          layer.msg("修改成功!")
+        }
+        else{
+          layui.use(['layer'], function(){layui.layer.msg('数据加载失败...')})
+        }
+      })
     }
+
   },
   mounted: function(){
     this.initData(this);
