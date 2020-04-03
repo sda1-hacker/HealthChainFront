@@ -16,11 +16,17 @@
 <script>
 export default{
   mounted(){
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
-      var laydate = layui.laydate //日期
-      ,laypage = layui.laypage //分页
-      ,layer = layui.layer //弹层
-      ,table = layui.table //表格
+    const that = this;
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+      var laydate = layui.laydate //日期
+      ,laypage = layui.laypage //分页
+      ,layer = layui.layer //弹层
+      ,table = layui.table //表格
+      ,carousel = layui.carousel //轮播
+      ,upload = layui.upload //上传
+      ,element = layui.element //元素操作
+      ,slider = layui.slider //滑块
+      ,$ = layui.$
      
 
       //执行一个 table 实例
@@ -28,7 +34,7 @@ export default{
         elem: '#demo'
         ,height: 420
         ,title: '所有服务列表'
-        ,url:http+'/api/admin/findMedicalServiceList'
+        ,url:http + '/api/admin/findMedicalServiceList'
         ,method:'post'
         ,where:{token: window.sessionStorage.getItem('token'), serviceName: '', auditResult: ''}
         ,page: true //开启分页
@@ -44,9 +50,10 @@ export default{
       });
         //监听行工具事件
       table.on('tool(test)', function(obj){
-        var data = obj.data;
+        var data = obj.data
+        ,layEvent = obj.event; //获得 lay-event 对应的值
         //console.log(obj)
-        if(obj.event === 'del'){
+        if(layEvent === 'del'){
           layer.confirm('真的删除行么', function(index){
             obj.del(); //删除对应行（tr）的DOM结构
             layer.close(index);
