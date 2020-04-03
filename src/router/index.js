@@ -14,6 +14,7 @@ import serviceManage from '../views/admin/serviceManage.vue'
 import serviceVerify from '../views/admin/serviceVerify.vue'
 import userManage from '../views/admin/userManage.vue'
 import wallet from '../views/admin/wallet.vue'
+import login_admin from '../views/login/Login_admin'
 
 import userInfo from '../components/content/userInfo.vue' // 在对话框中打开的页面
 
@@ -41,12 +42,12 @@ const routes = [
     component: login
   },
   {
-    path: '/register',
-    component: register
+    path: '/login_',
+    component: login_admin
   },
   {
-    path: '/admin',
-    component: admin
+    path: '/register',
+    component: register
   },
   {
     path:'/adminManage',
@@ -133,7 +134,7 @@ const router = new VueRouter({
 
 /* 挂载路由导航守卫，防止访问没有权限的页面 */
 router.beforeEach((to, from, next) => {
-  if(to.path === '/login' || to.path === '/register'){
+  if(to.path === '/login' || to.path === '/register' || to.path === '/login_'){
     next()
     return;
   }

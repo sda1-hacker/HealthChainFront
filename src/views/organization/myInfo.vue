@@ -7,12 +7,6 @@
       </div>
     </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
-      <div class="layui-input-inline">
-        <input type="text" name="password" autocomplete="off" class="layui-input" v-model="password">
-      </div>
-    </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">以太坊地址</label>
@@ -56,12 +50,6 @@
       </div>
     </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">账户余额</label>
-      <div class="layui-input-inline">
-        <input type="text" name="balance" autocomplete="off" class="layui-input" v-model="balance" readonly="readonly">
-      </div>
-    </div>
 
     <div class="layui-form-item">
       <div class="layui-input-block">
@@ -78,19 +66,17 @@ export default {
     return {
       "id": "",
       "account": "",
-      "password": "",
       "ethAddress": "",
       "organizationName": "",
-      "type": "..",
+      "type": "",
       "certificateResult": "",
       "certificateFiles": "",
-      "certificateTime": "",
-      "balance": ""
+      "certificateTime": ""
     }
   },
   methods: {
     initData(vueObj){
-      this.$http.get("/third/orgInfo.json", {}).then(function({data: res}){
+      this.$http.post(http+"/api/org/getMyInfo", {token:window.sessionStorage.getItem('token')}).then(function({data: res}){
         if("200" === res._code){
           console.log(res)
           vueObj.id = res._data.id,
@@ -116,14 +102,12 @@ export default {
         if("200" === res._code){
           that.id = res._data.id,
           that.account = res._data.account,
-          that.password = res._data.password,
           that.ethAddress = res._data.ethAddress,
           that.organizationName = res._data.organizationName,
           that.type = res._data.type,
           that.certificateResult = res._data.certificateResult,
           that.certificateFiles = res._data.certificateFiles,
-          that.certificateTime = res._data.certificateTime,
-          that.balance = res_data.balance
+          that.certificateTime = res._data.certificateTime
           layer.msg("修改成功!")
         }
         else{

@@ -44,7 +44,6 @@ export default {
 			table = layui.table;
 
 	    form.on('submit(alterPassword)', function (data) {
-        layer.msg("ss")
         var formData = data.field;
 
         if(formData.password != formData.repassword){
@@ -52,18 +51,18 @@ export default {
           return;
         }
         $.ajax({
-              url: '/',
+              url: http+'/api/org/updatePassword',
               type: 'POST',
-              data: {admid:'${admid}',admschid:'${admschid}',admname:'${admname}',admnumber:'${admnumber}',admpassword:formData.password,admlocked:'${admlocked}'},
+              data: {token:window.sessionStorage.getItem('token'),password:formData.oldPassword,newPassword:formData.password},
               success: function (info) {
-                  if (info.status === 0) {
-                    layer.msg("修改成功！");
+                  if (info._code === "200") {
+                    layer.msg(info._msg);
                       // setTimeout(function () {
 
                       //     location.href = '/login'
                       //   }, 800);
                   }else{
-                    layer.msg("修改失败!");
+                    layer.msg(info._msg);
                   }
               }
         });

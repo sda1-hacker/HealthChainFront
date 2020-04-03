@@ -5,7 +5,11 @@
       <table style="display: inline-block" class="layui-hide" id="serviceTable" lay-filter="serviceUpadte"></table>
     </div>
   </div>
-
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add"  style = "margin-top:10px;margin-left:30px;position:relative;float:left;">添加</button>
+  </div>
+</script>
   <script type="text/html" id="handler">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -20,11 +24,11 @@ export default {
     }
   },
   mounted(){
-    this.$http.get('/third/findMedicalServiceByConditions.json', {}).then(({data: res}) => {this.initTable(res)})
+    this.initTable()
   },
   methods: {
     // 初始化表格
-    initTable(res){
+    initTable(){
       const that = this
       layui.use('table', function(){
         that.table = layui.table
@@ -34,13 +38,12 @@ export default {
           elem: '#serviceTable'
           ,height: 420
           ,title: '服务表'
+          ,url:http+'/api/org/getMedicalServiceList'
+          ,method:'post'
+          ,where:{token:window.sessionStorage.getItem('token')}
           ,page: true //开启分页
-          ,toolbar: 'default'
-          ,defalutToolbar: []
-          ,response: {
-            statusCode: 200 //规定成功的状态码，默认：0
-          }
-          ,data: res._data.medicalServiceList.data
+          ,toolbar: '#toolbarDemo'
+          ,defalutToolbar: ['add']
           ,cols: [[ //表头
             {field: 'id', title: '医疗服务ID', width:140, align: 'center'}
             ,{field: 'serviceName', title: '服务名称', width:200, align: 'center'}
@@ -73,18 +76,21 @@ export default {
           }
         });
 
-        // 监听删除和查看按钮
+        // 监听删除和修改按钮
         that.table.on('tool(serviceUpadte)', function(obj){
+          var data = obj.data;
           switch(obj.event){
             case 'edit':
               layer.open({
                 type: 1,
-                title: '修改管理员',
+                title: '修改服务信息',
                 skin: 'layui-layer-molv',
                 content: that.getServiceDialog(obj.data),
                 btn: ['修改', '取消'],
                 yes: function (index, layero) {
                   const service = {}
+
+                  service.id =data.id;
                   service.serviceName = document.getElementById('serviceName').value;
                   service.cost = document.getElementById('cost').value;
                   service.serviceDetails = document.getElementById('serviceDetails').value;
@@ -94,7 +100,9 @@ export default {
               break;
             case 'del':
               layer.confirm('真的删除此服务吗', function(index){
-                that.delService(obj, index);
+                const service = {}
+                service.id =data.id;
+                that.delService(service, index);
               });
               break;
           }
@@ -105,61 +113,78 @@ export default {
     // 增加服务
     addService(service, index){
       const that = this
-      if(service.serviceName === '' || service.serviceDetails === '' || service.cost === ''){
-        layer.msg('字段不能为空')
-        return
-      }
-      if(isNaN(service.cost) || parseInt(service.cost) < 0){
-        layer.msg('费用输入不合法')
-        return
-      }
-      this.$http.get('/third/addMedicalService.json', {}).then(({data: res}) => {
-        if('200' === res._code){
-          this.$http.get('/third/findMedicalServiceByConditions.json', {}).then(({data: res}) => {
-            that.table.reload("listReload", {data: res._data.medicalServiceList.data})
-            layer.close(index);
-            layer.msg('添加成功')
-          })
-        } else {
-          layer.close(index);
-          layer.msg('添加失败')
+      layui.use('table', function(){
+        var layer = layui.layer;
+        if(service.serviceName === '' || service.serviceDetails === '' || service.cost === ''){
+          layer.msg('字段不能为空')
+          return
         }
+        if(isNaN(service.cost) || parseInt(service.cost) < 0){
+          layer.msg('费用输入不合法')
+          return
+        }
+        that.$http.post(http+'/api/org/insertMedicalService', {token:window.sessionStorage.getItem('token'),serviceName:service.serviceName,serviceDetails:service.serviceDetails,cost:service.cost}).then(({data: res}) => {
+          if('200' === res._code){
+            layer.msg(res._msg);
+            layer.close(index);
+            setTimeout(function () {
+              location.reload()
+            }, 800);
+          } else {
+            layer.close(index);
+            layer.msg('添加失败')
+          }
+        })
       })
     },
 
     // 更新服务
     updateService(obj, service, index){
-      if(service.serviceName === '' || service.serviceDetails === '' || service.cost === ''){
+      const that = this
+      layui.use('table', function(){
+        var layer = layui.layer;
         layer.msg('字段不能为空')
-        return
-      }
-      if(isNaN(service.cost) || parseInt(service.cost) < 0){
-        layer.msg('费用输入不合法')
-        return
-      }
-      this.$http.get('/third/updateMedicalService.json', {}).then(({data: res}) => {
-        if('200' === res._code){
-          obj.update(service)
-          layer.close(index);
-          layer.msg('修改成功')
-        } else {
-          layer.close(index);
-          layer.msg('修改失败')
+        if(service.serviceName === '' || service.serviceDetails === '' || service.cost === ''){
+          layer.msg('字段不能为空')
+          return
         }
+        if(isNaN(service.cost) || parseInt(service.cost) < 0){
+          layer.msg('费用输入不合法')
+          return
+        }
+        that.$http.post(http+'/api/org/updateMedicalService', {token:window.sessionStorage.getItem('token'),id:service.id,serviceName:service.serviceName,serviceDetails:service.serviceDetails,cost:service.cost}).then(({data: res}) => {
+          if('200' === res._code){
+            layer.close(index);
+            layer.msg(res._msg)
+            setTimeout(function () {
+              location.reload()
+            }, 800);
+          } else {
+            layer.close(index);
+            layer.msg(res._msg)
+          }
+        })
       })
     },
 
     // 删除服务
     delService(service, index){
-      this.$http.get('/third/delMedicalServiceById.json', {}).then(({data: res}) => {
-        if('200' === res._code){
-          service.del();
-          layer.close(index);
-          layer.msg('删除成功')
-        } else {
-          layer.close(index);
-          layer.msg('删除失败')
-        }
+      const that = this
+      layui.use('table', function(){
+        var layer = layui.layer;
+        that.$http.post(http+'/api/org/delMedicalService', {token:window.sessionStorage.getItem('token'),id:service.id}).then(({data: res}) => {
+          if('200' === res._code){
+            // service.del();
+            layer.close(index);
+            layer.msg(res._msg)
+            setTimeout(function () {
+              location.reload()
+            }, 800);
+          } else {
+            layer.close(index);
+            layer.msg(res._msg)
+          }
+        })
       })
     },
 

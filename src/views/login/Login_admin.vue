@@ -4,7 +4,7 @@
 
     <div class="layadmin-user-login-main">
       <div class="layadmin-user-login-box layadmin-user-login-header">
-        <h2>智能健康互联</h2>
+        <h2>智能健康互联管理端</h2>
         <p>------以太坊------</p>
       </div>
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
@@ -34,7 +34,6 @@
           <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
         </div> -->
         <div class="layui-form-item">
-          <a href="/register" class="layadmin-user-jump-change layadmin-link layui-hide-xs">没有账号？去注册>></a>
           <button @click="login" class="layui-btn layui-btn-fluid btn" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
         </div>
         <!-- <div class="layui-trans layui-form-item layadmin-user-login-other">
@@ -148,13 +147,14 @@ export default {
         return;
       }
       const that = this;
-      this.$http.post(http+'/api/org/login', {account:this.account,password:this.password}).then(function({data: res}){
+      this.$http.post(http+'/api/admin/login', {account:this.account,password:this.password}).then(function({data: res}){
         if('200' === res._code){
           // 设置token，记录登录状态
-
           window.sessionStorage.setItem('token', res._data.token.toString())
-          window.sessionStorage.setItem('userInfo', res._data.userInfo.toString())
-          location.href = "/organization"  // 调转到admin路由
+          window.sessionStorage.setItem('adminInfo', res._data.adminInfo)
+          var data_ob = window.sessionStorage.getItem('adminInfo').RowDataPacket.account
+          alert(data_ob)
+          location.href = "/admin"  // 调转到admin路由
         } else{
           layui.use(['layer'], function(){layui.layer.msg('用户名或密码不正确')})
         }

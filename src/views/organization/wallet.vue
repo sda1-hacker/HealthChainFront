@@ -86,7 +86,7 @@ export default {
  methods: {
   initDta(vueObj){
       const that = this;
-      this.$http.get("/third/wallet.json", {}).then(function({data: res}){
+      this.$http.post(http+"/api/org/getMyInfo", {token:window.sessionStorage.getItem('token')}).then(function({data: res}){
         if("200" === res._code){
 
           vueObj.ethAddress = res._data.ethAddress

@@ -39,7 +39,7 @@ export default {
       var demoListView = $('#demoList')
       ,uploadListIns = upload.render({
         elem: '#testList'
-        ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+        ,url: http+'/api/org/audit' //改成您自己的上传接口
         ,accept: 'file'
         ,multiple: true
         ,auto: false

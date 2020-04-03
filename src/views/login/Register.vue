@@ -79,7 +79,7 @@ export default{
       //如何判断用户是否同意用户协议
 
       //判断是否注册成功
-      this.$http.get('/admin/register.json', {}).then(function({data: res}){
+      this.$http.get(http+'/api/admin/register', {}).then(function({data: res}){
         if('200' === res._code){
           // window.sessionStorage.setItem('token', res._data.token.toString())
           layui.use(['layer'], function(){layui.layer.msg('注册成功')})
