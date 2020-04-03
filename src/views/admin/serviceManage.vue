@@ -6,8 +6,8 @@
       判断审核状态，0:审核中，1:通过，2:拒绝。
       只要>0都表示已经审核，操作栏只显示删除
     -->
-      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="pass">通过</a>
-      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="refuse">拒绝</a>
+      <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="pass">通过</a>
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="refuse">拒绝</a> -->
       <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
   </div>
@@ -27,9 +27,11 @@ export default{
       table.render({
         elem: '#demo'
         ,height: 420
-        ,url: '/layuiadmin/json/table/organization.js' //数据接口
-        ,title: '服务管理'
-        ,page: true //开启分页
+        ,title: '所有服务列表'
+        ,url:http+'/api/admin/findMedicalServiceList'
+        ,method:'post'
+        ,where:{token: window.sessionStorage.getItem('token'), serviceName: '', auditResult: ''}
+        ,page: true //开启分页
         ,cols: [[ //表头
           ,{field: 'id', title: 'ID', unresize:'false',sort: true, align:'center'}
           ,{field: 'serviceName', title: '服务名', align:'center'}
@@ -45,22 +47,15 @@ export default{
         var data = obj.data;
         //console.log(obj)
         if(obj.event === 'del'){
-          layer.confirm('真的删除这个服务吗', function(index){
-            obj.del();
+          layer.confirm('真的删除行么', function(index){
+            obj.del(); //删除对应行（tr）的DOM结构
             layer.close(index);
-          });
-        } else if(obj.event === 'pass'){
-          layer.prompt({
-            formType: 2
-            ,value: data.email
-          }, function(value, index){
-            obj.update({
-              email: value
-            });
-            layer.close(index);
-          });
-        }else if(obj.event === 'refuse'){
+            //向服务端发送删除指令
+            that.$http.post(http + "/api/admin/deleteService", {token: window.sessionStorage.getItem('token'), id: data.id} ).then(function({data: res}){
+              console.log(res._msg);
+            })
 
+          });
         }
       });
     });
