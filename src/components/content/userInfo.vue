@@ -93,7 +93,8 @@ export default {
   },
   methods: {
     initData(vueObj){
-      this.$http.get("/admin/userInfo.json", {}).then(function({data: res}){
+
+      this.$http.post(httP + "/api/admin/findUserInfo", {token: window.sessionStorage.getItem('token'), }).then(function({data: res}){
         if("200" === res._code){
           console.log(res)
           vueObj.id = res._data.id,
