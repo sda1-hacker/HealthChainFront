@@ -8,21 +8,9 @@
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-cellphone"></label>
-          <input v-model="tel" type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机" class="layui-input">
+          <input v-model="account" type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机" class="layui-input">
         </div>
-        <div class="layui-form-item">
-          <div class="layui-row">
-            <div class="layui-col-xs7">
-              <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-              <input v-model="vercode" type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input">
-            </div>
-            <div class="layui-col-xs5">
-              <div style="margin-left: 10px;">
-                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="LAY-user-getsmscode" >获取验证码</button>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
           <input v-model="password" type="password" name="password" id="LAY-user-login-password" lay-verify="pass" placeholder="密码" class="layui-input">
@@ -33,7 +21,7 @@
         </div>
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
-          <input v-model="account" type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname" placeholder="昵称" class="layui-input">
+          <input v-model="organizationName" type="text" name="organizationName" id="LAY-user-login-nickname" lay-verify="organizationName" placeholder="昵称" class="layui-input">
         </div>
 
         <div class="layui-form-item">
@@ -54,23 +42,20 @@
 export default{
   data(){
     return{
-        tel: '',               //手机号
-        vercode: '',           //验证码
+        account: '',           //手机号
         password: '',          //密码
-        repassword: '',        //确认密码
-        account: '',           //昵称
-        agreecheck:false        //同意协议框
+        organizationName: ''   //机构名
     }
 
   },
   methods:{
     register(){
       const that = this;
-      // if(this.tel.toString == '' || this.vercode.toString == null || this.password.toString == null || this.repassword.toString == null)
-      // {
-      //   layer.msg("不能为空")
-      //   return
-      // }
+      if(this.account.toString == '' || this.organizationName.toString == null || this.password.toString == null || this.repassword.toString == null)
+      {
+        layui.layer.msg("不能为空")
+        return
+      }
       //判断两次输入的密码是否一致
       if( this.password.toString() != this.repassword.toString() ){
         layui.layer.msg('两次输入的密码不一致')
@@ -79,7 +64,7 @@ export default{
       //如何判断用户是否同意用户协议
 
       //判断是否注册成功
-      this.$http.get(http+'/api/admin/register', {}).then(function({data: res}){
+      that.$http.post(http+'/api/org/register', {account:this.account,password:this.password,organizationName:this.organizationName}).then(function({data: res}){
         if('200' === res._code){
           // window.sessionStorage.setItem('token', res._data.token.toString())
           layui.use(['layer'], function(){layui.layer.msg('注册成功')})

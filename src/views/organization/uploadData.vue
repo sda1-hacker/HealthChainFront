@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted(){
-    this.$http.get('/third/findHealthDataHistory.json', {}).then(({data: res}) => {this.initTable(res)})
+    this.$http.post('/third/findHealthDataHistory.json', {}).then(({data: res}) => {this.initTable(res)})
   },
   methods: {
     initTable(res){
