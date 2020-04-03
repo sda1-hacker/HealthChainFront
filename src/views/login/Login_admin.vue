@@ -151,8 +151,12 @@ export default {
         if('200' === res._code){
           // 设置token，记录登录状态
           window.sessionStorage.setItem('token', res._data.token.toString())
-          //window.sessionStorage.setItem('adminInfo', res._data.adminInfo)
-          //window.sessionStorage.getItem('adminInfo').RowDataPacket.account
+          // window.sessionStorage.setItem('adminInfo', res._data.adminInfo)
+          // window.sessionStorage.getItem('adminInfo').RowDataPacket.account
+          // window.sessionStorage.setItem('account',res._data.adminInfo.account)
+          window.sessionStorage.setItem('adminInfo', res._data.adminInfo.toString())
+          alert(JSON.parse(window.sessionStorage.getItem('adminInfo')).account)
+
           location.href = "/admin"  // 调转到admin路由
         } else{
           layui.use(['layer'], function(){layui.layer.msg('用户名或密码不正确')})
