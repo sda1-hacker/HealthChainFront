@@ -11,7 +11,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
 
-  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;display:none">
     <div class="layui-form-item">
       <label class="layui-form-label">用户名</label>
       <div class="layui-input-inline">
@@ -22,7 +22,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">昵称</label>
       <div class="layui-input-inline">
-        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="nickName" readonly="readonly">
+        <input type="text" name="username" autocomplete="off" class="layui-input" v-model="nickname" readonly="readonly">
       </div>
     </div>
 
@@ -88,7 +88,7 @@ export default {
 
       "id": "",
       "account": "",
-      "nickName": "",
+      "nickname": "",
       "password": "",
       "ethAddress": "",
       "sex": "",
@@ -115,12 +115,13 @@ export default {
             ,upload = layui.upload //上传
             ,element = layui.element //元素操作
             ,slider = layui.slider //滑块
+            ,$ = layui.$
 
             table.render({
               elem: '#demo'
               ,height: 420
               ,title: '用户管理表'
-              ,url:http+'/api/admin/getUserList'
+              ,url:http + '/api/admin/getUserList'
               ,method:'post'
               ,where:{token: window.sessionStorage.getItem('token')}
               ,page: true //开启分页
@@ -128,14 +129,11 @@ export default {
               ,totalRow: true //开启合计行
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,response: {
-                statusCode: 200
-              }
-              ,data: vueObj.userList     // 列表[]
+              // ,data: vueObj.userList     // 列表[]
               ,cols: [[
                 {field:'id', title: 'id', sort: true, align:'center'}
                 ,{field:'account', title: '用户名', align:'center'}
-                ,{field:'nickName', title: '昵称', align:'center'}
+                ,{field:'nickname', title: '昵称', align:'center'}
                 ,{field:'password', title: '密码', align:'center'}
                 ,{field:'ethAddress', title: '以太坊地址', align:'center'}
                 ,{field:'sex', title: '性别', align:'center'}
@@ -156,7 +154,7 @@ export default {
 
                 vueObj.id = data.id,
                 vueObj.account = data.account,
-                vueObj.nickName = data.nickName,
+                vueObj.nickname = data.nickname,
                 vueObj.password = data.password,
                 vueObj.ethAddress = data.ethAddress,
                 vueObj.sex = data.sex,
@@ -179,7 +177,7 @@ export default {
                   obj.del(); //删除对应行（tr）的DOM结构
                   layer.close(index);
                   //向服务端发送删除指令
-                  that.$http.get(http + "/api/admin/deleteUser", {token: window.sessionStorage.getItem('token'), id: that.id} ).then(function({data: res}){
+                  that.$http.post(http + "/api/admin/deleteUser", {token: window.sessionStorage.getItem('token'), id: data.id} ).then(function({data: res}){
                     console.log(res._msg);
                   })
 
@@ -203,12 +201,10 @@ export default {
 
     updateUserInfo(){
       const that = this;
-      this.$http.post(http + "/api/admin/updateUserInfo", {token: window.sessionStorage.getItem('token'), id: that.id, password: that.password}).then(function({data: res}){
+      this.$http.post(http + "/api/admin/updateUserInfo", {token: window.sessionStorage.getItem('token'), id: this.id, password: this.password}).then(function({data: res}){
         if("200" === res._code){
-          // that.password = res._data.password,
-          // that.address = res._data.address,
-          // that.tel = res._data.tel
           layer.msg("修改成功!")
+          location.reload();
         }
         else{
           layui.use(['layer'], function(){layui.layer.msg('数据加载失败...')})

@@ -5,9 +5,9 @@
     <table class="layui-hide" id="demo" lay-filter="test"></table>
 
     <script type="text/html" id="barDemo">
-      <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="ispassed">审核通过</a>
+      <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="ispassed">允许通过</a>
       <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
-      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="nopassed">不通过</a>
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="nopassed">不允许通过</a>
     </script>
   </div>
 
@@ -18,15 +18,12 @@
 export default {
   data(){
     return {
-      medicalServiceList: [],
+
     }
   },
   methods: {
     initData(vueObj){
       const that = this;
-
-          vueObj.medicalServiceList = res._data.medicalServiceList.data
-
           layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
             var laydate = layui.laydate //日期
             ,laypage = layui.laypage //分页
@@ -49,9 +46,6 @@ export default {
               ,totalRow: true //开启合计行
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,response: {
-                statusCode: 200
-              }
               ,cols: [[
                 {field:'id', title: 'id', sort: true}
                 ,{field:'serviceName', title: '服务名称'}
@@ -69,14 +63,28 @@ export default {
                 ,layEvent = obj.event; //获得 lay-event 对应的值
                 if(layEvent === 'ispassed'){
 
-                  that.$http.post(http + "/admin/medicalServiceIsPadded.json", {token: window.sessionStorage.getItem('token'), auditResult: '审核通过'}).then(function({data: res}){
-                    layer.msg('审核通过,ok');
+                  that.$http.post(http + "/api/admin/updateMedicalServcie", {token: window.sessionStorage.getItem('token'), id: data.id,auditResult: '审核通过'}).then(function({data: res}){
+                    if(res._code === "200"){
+                      layer.msg('审核通过,ok');
+                      location.reload();
+                    }
+                    else{
+                      layer.msg('操作失败..');
+                      location.reload();
+                    }
 
                   })
                 } else if(layEvent === 'nopassed'){
 
-                  that.$http.post("/admin/medicalServiceIsPadded.json", {token: window.sessionStorage.getItem('token'), auditResult: '审核未通过'}).then(function({data: res}){
-                    layer.msg('审核不通过..');
+                  that.$http.post(http + "/api/admin/updateMedicalServcie", {token: window.sessionStorage.getItem('token'), id: data.id, auditResult: '审核未通过'}).then(function({data: res}){
+                    if(res._code === "200"){
+                      layer.msg('审核不通过..');
+                      location.reload();
+                    }
+                    else{
+                      layer.msg('操作失败..');
+                      location.reload();
+                    }
 
                   })
                 }
