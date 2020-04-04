@@ -86,12 +86,12 @@ export default {
  methods: {
   initDta(vueObj){
       const that = this;
-      this.$http.get("/admin/wallet.json", {}).then(function({data: res}){
+      this.$http.post(http + "/api/admin/getWalletInfo", {token: window.sessionStorage.getItem('token'),
+      ethAddress: window.sessionStorage.getItem('adminInfo').ethAddress}).then(function({data: res}){
         if("200" === res._code){
 
-          vueObj.ethAddress = res._data.ethAddress
+          vueObj.ethAddress = window.sessionStorage.getItem('adminInfo').ethAddress
           vueObj.balance = res._data.balance
-          vueObj.transactionRecordList = res._data.transactionRecordList
 
           // 将列表数据显示在表格中
           layui.use('table', function(){
@@ -99,11 +99,11 @@ export default {
             table.render({
               elem: '#test'
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
+              ,url: http + "/api/admin/transactionRecord"
+              ,method:'post'
+              ,where:{token: window.sessionStorage.getItem('token'), sendAddress: window.sessionStorage.getItem('adminInfo').ethAddress}
+              ,page: true //开启分页
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,response: {
-                statusCode: 200
-              }
-              ,data: res._data.transactionRecordList.data     // 列表[]
               ,cols: [[
                 {field:'id',  title: 'id', sort: true}
                 ,{field:'sendAddress', title: '付款方地址'}
@@ -123,10 +123,13 @@ export default {
       })
    },
 
+
    transfer(){
     console.log("进入转账操作。。。。")
       const that = this;
-      this.$http.get("/user/transfer.json", {}).then(function({data: res}){
+      that.$http.get( http + "/api/admin/transfer", {token: window.sessionStorage.getItem('token'),
+      id: window.sessionStorage.getItem('adminInfo').id, receiverEthAddr: this.recieveAddress,
+      value: this.transactEth, transactRemarks: that.transactRemarks}).then(function({data: res}){
         if("200" === res._code){
           console.log("转账...")
           that.sendAddress = that.ethAddress  // 付款方是本人

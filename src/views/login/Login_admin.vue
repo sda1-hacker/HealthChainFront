@@ -155,7 +155,7 @@ export default {
           // window.sessionStorage.getItem('adminInfo').RowDataPacket.account
           // window.sessionStorage.setItem('account',res._data.adminInfo.account)
           window.sessionStorage.setItem('adminInfo', res._data.adminInfo.toString())
-          alert(JSON.parse(window.sessionStorage.getItem('adminInfo')).account)
+          // alert(JSON.parse(window.sessionStorage.getItem('adminInfo')).account)
 
           location.href = "/admin"  // 调转到admin路由
         } else{
