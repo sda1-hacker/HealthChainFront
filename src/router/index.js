@@ -15,7 +15,7 @@ import serviceVerify from '../views/admin/serviceVerify.vue'
 import userManage from '../views/admin/userManage.vue'
 import wallet from '../views/admin/wallet.vue'
 import login_admin from '../views/login/Login_admin'
-
+import contractInfo from '../views/admin/contractInfo'
 import userInfo from '../components/content/userInfo.vue' // 在对话框中打开的页面
 
 import organization from "../views/organization/Organization.vue"
@@ -124,6 +124,10 @@ const routes = [
   {
     path: '/updatePasswordOrg',
     component:updatePasswordOrg
+  },
+  {
+    path: '/contractInfo',
+    component: contractInfo
   }
 ]
 const router = new VueRouter({
