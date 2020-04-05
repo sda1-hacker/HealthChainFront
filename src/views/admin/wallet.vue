@@ -15,7 +15,7 @@
           </div>
 
           <div class="layui-inline">
-            <label class="layui-form-label">账户余额:</label>
+            <label class="layui-form-label">余额ETH:</label>
             <div class="layui-input-block">
               <input type="text" name="loginname" placeholder="请输入" autocomplete="off" class="layui-input" v-model="balance" readonly="readonly">
             </div>
@@ -33,7 +33,7 @@
           </div>
 
           <div class="layui-inline">
-            <label class="layui-form-label">转账金额:</label>
+            <label class="layui-form-label">转账wei:</label>
             <div class="layui-input-block">
               <input type="text" name="telphone" placeholder="请输入" autocomplete="off" class="layui-input" v-model="transactEth">
             </div>
@@ -87,10 +87,10 @@ export default {
   initDta(vueObj){
       const that = this;
       this.$http.post(http + "/api/admin/getWalletInfo", {token: window.sessionStorage.getItem('token'),
-      ethAddress: window.sessionStorage.getItem('adminInfo').ethAddress}).then(function({data: res}){
+      ethAddress: JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress}).then(function({data: res}){
         if("200" === res._code){
 
-          vueObj.ethAddress = window.sessionStorage.getItem('adminInfo').ethAddress
+          vueObj.ethAddress = JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress
           vueObj.balance = res._data.balance
 
           // 将列表数据显示在表格中
@@ -101,7 +101,7 @@ export default {
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
               ,url: http + "/api/admin/transactionRecord"
               ,method:'post'
-              ,where:{token: window.sessionStorage.getItem('token'), sendAddress: window.sessionStorage.getItem('adminInfo').ethAddress}
+              ,where:{token: window.sessionStorage.getItem('token'), sendAddress: JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress}
               ,page: true //开启分页
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
               ,cols: [[
@@ -123,24 +123,19 @@ export default {
       })
    },
 
-
+  // JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress
    transfer(){
-    console.log("进入转账操作。。。。")
       const that = this;
-      that.$http.get( http + "/api/admin/transfer", {token: window.sessionStorage.getItem('token'),
-      id: window.sessionStorage.getItem('adminInfo').id, receiverEthAddr: this.recieveAddress,
-      value: this.transactEth, transactRemarks: that.transactRemarks}).then(function({data: res}){
+      this.$http.post( http + "/api/admin/transfer", {token: window.sessionStorage.getItem('token'),
+      receiverEthAddr: this.recieveAddress, value: this.transactEth,
+      transactRemarks: this.transactRemarks}).then(function({data: res}){
         if("200" === res._code){
-          console.log("转账...")
-          that.sendAddress = that.ethAddress  // 付款方是本人
-          layer.msg(that.transactEth)
           layui.use(['layer'], function(){layui.layer.msg('转账成功...')})
-          that.balance = res.userBalance
         }else {
           layui.use(['layer'], function(){layui.layer.msg('转账失败...')})
         }
     })
- },
+  },
  },
 
 

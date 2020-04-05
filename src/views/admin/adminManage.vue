@@ -65,14 +65,14 @@ export default {
               skin: 'layui-layer-molv',
               content: `<div style="padding: 15px 50px 15px 15px"><label for="account">账户：</label><input id="account"/><br><br>
                         <label for="accopasswordunt">密码：</label><input id="password"/><br><br>
-                        <label for="ethAddress">以太坊账号：</label><input id="ethAddress"/><br><br>
+                        <!-- <label for="ethAddress">以太坊账号：</label><input id="ethAddress"/><br><br> -->
                         <label for="authority">权限：</label><select id="authority"><option value="normal">normal</option><option value="disable">disable</option>}</select></div>`,
               btn: ['添加', '取消'],
               yes: function (index, layero) {
                 const admin = {}
                 admin.account = document.getElementById('account').value;
                 admin.password = document.getElementById('password').value;
-                admin.ethAddress = document.getElementById('ethAddress').value;
+                // admin.ethAddress = document.getElementById('ethAddress').value;
                 admin.authority = document.getElementById('authority').value;
                 that.addAdmin(admin, index)
               }
@@ -121,7 +121,7 @@ export default {
         layer.msg('字段不能为空')
         return
       }
-      that.$http.post(http+'/api/admin/addAdminInfo', {token:window.sessionStorage.getItem('token'), account:admin.account, password:admin.password, authority:admin.authority, ethAddress:admin.ethAddress}).then(({data: res}) => {
+      that.$http.post(http+'/api/admin/addAdminInfo', {token:window.sessionStorage.getItem('token'), account:admin.account, password:admin.password, authority:admin.authority}).then(({data: res}) => {
           if('200' === res._code){
             layer.msg(res._msg);
             layer.close(index);
