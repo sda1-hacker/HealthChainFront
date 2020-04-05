@@ -125,12 +125,21 @@
               </dl>
             </li>
             <li data-name="senior" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="合约参数" lay-direction="2">
+                <i class="layui-icon layui-icon-senior"></i>
+                <a lay-href="/contractInfo" style="padding-left:30px;">合约参数</a>
+                <!-- <cite>数据查看</cite> -->
+              </a>
+            </li>
+
+            <li data-name="senior" class="layui-nav-item">
               <a href="javascript:;" lay-tips="数据查看" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
                 <a lay-href="/getData" style="padding-left:30px;">数据查看</a>
                 <!-- <cite>数据查看</cite> -->
               </a>
             </li>
+
             <li data-name="senior" class="layui-nav-item">
               <a href="javascript:;" lay-tips="矿机信息" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
