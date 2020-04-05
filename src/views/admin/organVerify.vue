@@ -8,6 +8,9 @@
   <script type="text/html" id="handler">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
   </script>
+   <script type="text/html" id="certificateFiles">
+    <a class="layui-btn layui-btn-xs" href = " ">已上传，点击下载</a>
+  </script>
 </div>
 </template>
 <script>
@@ -34,7 +37,7 @@ export default {
           ,title: '审核表'
           ,url:http+'/api/admin/getOrgInfoList'
           ,method:'post'
-          ,where:{token:window.sessionStorage.getItem('token')}
+          ,where:{token:window.sessionStorage.getItem('token'), certificateResult: '审核中'}
           ,page: true //开启分页
           ,toolbar: 'true'
           ,cols: [[ //表头
@@ -44,9 +47,10 @@ export default {
           ,{field: 'introduction', title: '机构介绍', align:'center'}
           ,{field: 'tel', title: '机构电话', align:'center'}
           ,{field: 'certificateResult', title: '认证状态', align:'center'}
-          ,{field: 'certificateFiles', title: '认证文件', align:'center'}
+          ,{ title:'认证文件', align:'center', toolbar: '#certificateFiles', width: 140}
           ,{field: 'certificateTime', title: '认证时间', align:'center'}
           ,{ title:'操作', align:'center', toolbar: '#handler'}
+
           ]]
         })
 
@@ -84,7 +88,6 @@ export default {
           layer.msg('字段不能为空')
           return
         }
-        if(org.certificateResult === '审核中' || org.certificateResult === '审核通过' || org.certificateResult === '审核未通过'){
           that.$http.post(http+'/api/admin/updateOrgInfo', {token:window.sessionStorage.getItem('token'),id:org.id,certificateResult:org.certificateResult}).then(({data: res}) => {
           if('200' === res._code){
             layer.close(index);
@@ -97,18 +100,13 @@ export default {
             layer.msg(res._msg)
           }
         })
-        }else{
-          layer.msg('只能是 "审核中" "审核通过" "审核未通过" ')
-          return
-        }
-
       })
     },
 
 
     // 获取修改审核对话框
     getAuditDialog(org, readonly=''){
-      return `<div style="padding: 15px 50px 15px 15px"><label for="orgAudit">认证状态：</label><input id="certificateResult" ${readonly} value="${org===undefined?'':org.certificateResult}" /><br><br></div>`
+      return  `<div style="padding: 15px 50px 15px 15px"> <label for="certificateResult">认证状态：</label><select id="certificateResult">${org.certificateResult ='<option value="审核通过">审核通过</option><option value="审核未通过">审核未通过</option>'}</select></div>`
     }
   }
 }
