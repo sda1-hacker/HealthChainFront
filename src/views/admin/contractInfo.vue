@@ -98,8 +98,7 @@ export default {
       that.$http.post(http + "/api/admin/setContractInfo_payforHealthData", {token:window.sessionStorage.getItem('token'),
       payforHealthData: this.payforHealthData}).then(function({data: res}){
         if("200" === res._code){
-          this.payforHealthData = res._data.payforHealthData;
-          layer.msg("修改成功!");
+          layui.use(['layer'], function(){layui.layer.msg('修改成功..')})
           location.reload();
         }
         else{
@@ -110,8 +109,7 @@ export default {
       that.$http.post(http + "/api/admin/setContractInfo_uploadSection", {token:window.sessionStorage.getItem('token'),
       uploadSection: this.uploadSection}).then(function({data: res}){
         if("200" === res._code){
-          this.uploadSection = res._data.uploadSection;
-          layer.msg("修改成功!");
+          layui.use(['layer'], function(){layui.layer.msg('修改成功..')})
           location.reload();
         }
         else{
@@ -122,8 +120,7 @@ export default {
       that.$http.post(http + "/api/admin/setContractInfo_validSection", {token:window.sessionStorage.getItem('token'),
       validSection: this.validSection}).then(function({data: res}){
         if("200" === res._code){
-          this.validSection = res._data.validSection;
-          layer.msg("修改成功!");
+          layui.use(['layer'], function(){layui.layer.msg('修改成功..')})
           location.reload();
         }
         else{
@@ -134,8 +131,7 @@ export default {
       that.$http.post(http + "/api/admin/setContractInfo_award", {token:window.sessionStorage.getItem('token'),
       award: this.award}).then(function({data: res}){
         if("200" === res._code){
-          this.award = res._data.award;
-          layer.msg("修改成功!");
+          layui.use(['layer'], function(){layui.layer.msg('修改成功..')})
           location.reload();
         }
         else{
