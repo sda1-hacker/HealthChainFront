@@ -53,7 +53,7 @@ export default {
           ,{field: 'introduction', title: '机构介绍', align:'center'}
           ,{field: 'tel', title: '机构电话', align:'center'}
           ,{field: 'certificateResult', title: '认证结果', align:'center'}
-          ,{field: 'certificateFiles', title: '认证文件', align:'center'}
+    //       ,{field: 'certificateFiles', title: '认证文件', align:'center'}
           ,{field: 'certificateTime', title: '认证时间', align:'center'}
           ,{width: 140, title:'操作', align:'center', toolbar: '#handler'}
           ]]
