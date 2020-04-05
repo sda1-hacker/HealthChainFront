@@ -47,7 +47,7 @@ export default {
           ,{field: 'introduction', title: '机构介绍', align:'center'}
           ,{field: 'tel', title: '机构电话', align:'center'}
           ,{field: 'certificateResult', title: '认证状态', align:'center'}
-          ,{ title:'认证文件', align:'center', toolbar: '#certificateFiles', width: 140}
+          ,{title: '下载认证文件', align:'center', toolbar: '#certificateFiles', width: 140}
           ,{field: 'certificateTime', title: '认证时间', align:'center'}
           ,{ title:'操作', align:'center', toolbar: '#handler'}
 
@@ -88,17 +88,17 @@ export default {
           layer.msg('字段不能为空')
           return
         }
-          that.$http.post(http+'/api/admin/updateOrgInfo', {token:window.sessionStorage.getItem('token'),id:org.id,certificateResult:org.certificateResult}).then(({data: res}) => {
-          if('200' === res._code){
-            layer.close(index);
-            layer.msg(res._msg)
-            setTimeout(function () {
-              location.reload()
-            }, 800);
-          } else {
-            layer.close(index);
-            layer.msg(res._msg)
-          }
+        that.$http.post(http+'/api/admin/updateOrgInfo', {token:window.sessionStorage.getItem('token'),id:org.id,certificateResult:org.certificateResult}).then(({data: res}) => {
+        if('200' === res._code){
+          layer.close(index);
+          layer.msg(res._msg)
+          setTimeout(function () {
+            location.reload()
+          }, 800);
+        } else {
+          layer.close(index);
+          layer.msg(res._msg)
+        }
         })
       })
     },
