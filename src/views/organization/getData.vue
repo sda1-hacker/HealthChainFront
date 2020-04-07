@@ -4,8 +4,8 @@
   <legend>收集数据</legend>
 </fieldset>
 
-<div class="layui-form" >
-  <div class="layui-form-item" style="margin-left:-100px;">
+<div class="layui-form">
+  <!-- <div class="layui-form-item" style="margin-left:-100px;">
     <div class="layui-inline" >
       <label class="layui-form-label" style="width:70px;">选择时间</label>
       <div class="layui-input-inline">
@@ -43,7 +43,13 @@
       <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" style="margin-left:-18px;width:300px;">确认收集</button>
 
     </div>
+  </div> -->
+  <table style="display: inline-block" class="layui-hide" id="demo" lay-filter="getData"></table>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="download"  style = "margin-top:10px;margin-left:30px;position:relative;float:left;">下载已授权数据</button>
   </div>
+</script>
 </div>
 </div>
 </template>
@@ -56,7 +62,7 @@ export default{
     ,laypage = layui.laypage //分页
     ,layer = layui.layer //弹层
     ,table = layui.table //表格
-console.log($)
+
     //范围时间选择控件
     laydate.render({
       elem: '#timeRange'
@@ -73,33 +79,117 @@ console.log($)
     });
 
 
-    // //执行一个 table 实例
-    // table.render({
-    //   elem: '#demo'
-    //   ,height: 420
-    //   ,url: '/layuiadmin/json/table/user.js' //数据接口
-    //   ,title: '用户表'
-    //   ,page: true //开启分页
-    //   ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-    //   ,totalRow: true //开启合计行
-    //   ,cols: [[ //表头
-    //     {type: 'checkbox', fixed: 'left'}
-    //     ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：'}
-    //     ,{field: 'username', title: '用户名', width:80}
-    //     ,{field: 'experience', title: '积分', width: 90, sort: true, totalRow: true}
-    //     ,{field: 'sex', title: '性别', width:80, sort: true}
-    //     ,{field: 'score', title: '评分', width: 80, sort: true, totalRow: true}
-    //     ,{field: 'city', title: '城市', width:150}
-    //     ,{field: 'sign', title: '签名', width: 200}
-    //     ,{field: 'classify', title: '职业', width: 100}
-    //     ,{field: 'wealth', title: '财富', width: 135, sort: true, totalRow: true}
-    //     ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
-    //     ,{fixed: '',title:'操作',width: 165, align:'center', toolbar: '#'}
-    //   ]]
-    // });
+    //执行一个 table 实例
+    var that = this;
+    table.render({
+      elem: '#demo'
+      ,id: 'reloadtable'
+      ,height: 420
+      ,url: http + '/api/org/getAllUsers' //数据接口
+      ,method:'post'
+      ,where:{token:window.sessionStorage.getItem('token')}
+      ,title: '用户表'
+      ,toolbar: '#toolbarDemo'
+      ,page: true //开启分页
+      ,cols: [[ //表头
+        {type: 'checkbox', fixed: 'left'}
+        ,{field: 'id', title: 'ID', width:80,align:'center', sort: true}
+        ,{field: 'sex', title: '性别', width: 165,align:'center', sort: true,templet: function(d){
+							if(d.sex==="0"){
+								return '女';
+							}else{
+								return '男';
+							}
+						}
+        }
+        ,{field: 'address', title: '地址', width:165,align:'center', sort: true}
+        ,{field: 'birth', title: '出生日期', width: 165,align:'center', sort: true}
+        ,{field: 'sum', title: '链上数据(条)', width:150,align:'center',sort: true,templet: function(d){
+            var sum = "";
+            $.ajax({
+              url: http+'/api/org/getUserHealthDataCount',
+              type: 'POST',
+              async: false,
+              data: {token:window.sessionStorage.getItem('token'),contractAddr:d.contractAddr},
+              success: function (info) {
+                if('200' === info._code){
+                  sum = info._data
+                } else {
+                  return "info._data.toString()"
+                  layer.msg(info._msg)
+                }
+              }
+            });
+            return sum;
+          }
+        }
+        ,{field: 'paid', title: '操作', width: 200, sort: true, align:'center',templet: function(d){
+            var paid = "";
+            $.ajax({
+              url: http+'/api/org/authFromUser',
+              type: 'POST',
+              async:false,
+              data: {token:window.sessionStorage.getItem('token'),contractAddr:d.contractAddr},
+              success: function (info) {
+
+                if('200' === info._code){
+                  if(info._data==="0"){
+                    paid = '<a class="layui-btn layui-btn-xs"  lay-event="edit">获取授权</a>';
+                  }else{
+                    paid = '<span class="layui-btn layui-btn-primary layui-btn-xs">已授权</span>';
+                  }
+                } else {
+                  layer.msg(info._msg)
+                }
+              }
+          });
+          return paid;
+
+          }
+        }
+      ]]
+    });
+    that.table.on('tool(getData)', function(obj){
+      var data = obj.data;
+      switch(obj.event){
+        case 'edit':
+          layer.open({
+            type: 1,
+            title: '授权转账',
+            skin: 'layui-layer-molv',
+            content: "<span style='margin:30px;line-height:4;'>获取该用户授权？</span>",
+            btn: ['确认', '取消'],
+            yes: function (index, layero) {
+              const service = {}
+              service.id =data.id;
+              service.ethAddress = data.ethAddress;
+              service.contractAddr = data.contractAddr;
+              $.ajax({
+                url: http+'/api/org/getUserAuth',
+                type: 'POST',
+                async:false,
+                data: {token:window.sessionStorage.getItem('token'),id:service.id,ethAddress:service.ethAddress,contractAddr:service.contractAddr},
+                success: function (info) {
+                  if('200' === info._code){
+                    layer.close(index);
+                    layer.msg(info._msg)
+                    // setTimeout(function () {
+                    //   location.reload()
+                    // }, 800);
+                  } else {
+                    layer.close(index);
+                    layer.msg(info._msg)
+                  }
+                }
+              });
+            }
+          })
+          break;
+      }
+    })//table结束
 
 
-});
+    });
   }
 }
 
