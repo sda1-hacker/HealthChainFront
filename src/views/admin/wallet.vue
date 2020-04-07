@@ -60,7 +60,7 @@
 
 
     <!-- 所有交易记录 -->
-    <table class="layui-hide" id="test"></table>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
   </div>
 
 
@@ -94,8 +94,17 @@ export default {
           vueObj.balance = res._data.balance
 
           // 将列表数据显示在表格中
-          layui.use('table', function(){
-            var table = layui.table;
+          layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+            var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,carousel = layui.carousel //轮播
+            ,upload = layui.upload //上传
+            ,element = layui.element //元素操作
+            ,slider = layui.slider //滑块
+            ,$ = layui.$
+
             table.render({
               elem: '#test'
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}

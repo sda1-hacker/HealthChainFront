@@ -91,7 +91,7 @@ export default {
   mounted(){
     const that = this
     this.$http.get(http + '/api/admin/getMinerInfo', {}).then(({data: res}) => {this.minerInfo = res._data; this.currentBlockHeight = parseInt(res._data.blockNumber)})
-    this.$http.get(http + '/api/admin/getBlockInfo', {}).then(({data: res}) => {this.blockInfo = res._data;})
+    this.$http.get(http + '/api/admin/getBlockInfo', {params: {num: 1}}).then(({data: res}) => {this.blockInfo = res._data;})
 
     // 设置计时器，每个12s请求一次区块信息
     setInterval(function(){
@@ -105,7 +105,8 @@ export default {
         layer.msg('查询的区块不存在')
         return
       }
-      this.$http.get('/admin/getBlockInfo.json', {}).then(({data: res}) => {this.blockInfo = res._data;})
+      // get发送请求的参数  {params: {num: 1}}
+      this.$http.get(http + '/api/admin/getBlockInfo', {params: {num: number}}).then(({data: res}) => {this.blockInfo = res._data;})
     }
   }
 }
