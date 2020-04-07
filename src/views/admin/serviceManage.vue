@@ -39,7 +39,7 @@ export default{
         ,where:{token: window.sessionStorage.getItem('token'), serviceName: '', auditResult: ''}
         ,page: true //开启分页
         ,cols: [[ //表头
-          ,{field: 'id', title: 'ID', unresize:'false',sort: true, align:'center'}
+           {field: 'id', title: 'ID', unresize:'false',sort: true, align:'center'}
           ,{field: 'serviceName', title: '服务名', align:'center'}
           ,{field: 'serviceDetails', title: '服务介绍', align:'center'}
           ,{field: 'cost', title: '服务花费', align:'center'}
