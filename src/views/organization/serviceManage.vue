@@ -24,7 +24,16 @@ export default {
     }
   },
   mounted(){
-    this.initTable()
+    //验证资格
+    if(JSON.parse(window.sessionStorage.getItem('userInfo')).type =="普通"){
+      layui.use('layer',function(){
+        layui.layer.msg("审核通过后的医疗机构才可以访问本页面，请先完成医疗机构审核",{
+    time: 5000})
+      })
+    }else{
+      this.initTable()
+    }
+
   },
   methods: {
     // 初始化表格

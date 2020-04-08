@@ -25,7 +25,7 @@
         </div>
 
         <div class="layui-form-item">
-          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit" @click="register">注 册</button>
+          <button id="regSubmit" class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit" @click="register">注 册</button>
         </div>
         <div class="layui-trans layui-form-item layadmin-user-login-other">
 
@@ -50,6 +50,7 @@ export default{
   },
   methods:{
     register(){
+
       const that = this;
       if(this.account.toString == '' || this.organizationName.toString == null || this.password.toString == null || this.repassword.toString == null)
       {
@@ -62,15 +63,17 @@ export default{
         return
       }
       //如何判断用户是否同意用户协议
-
+      layer.load(2);
       //判断是否注册成功
       that.$http.post(http+'/api/org/register', {account:this.account,password:this.password,organizationName:this.organizationName}).then(function({data: res}){
         if('200' === res._code){
           // window.sessionStorage.setItem('token', res._data.token.toString())
-          layui.use(['layer'], function(){layui.layer.msg('注册成功')})
+          layui.use(['layer'], function(){layui.layer.msg(res._msg)})
+          layer.closeAll('loading');
           that.$router.push("/login")
         } else{
-          layui.use(['layer'], function(){layui.layer.msg('注册失败')})
+          layui.use(['layer'], function(){layui.layer.msg(res._msg)})
+          layer.closeAll('loading');
         }
       })
     }
