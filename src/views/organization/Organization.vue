@@ -105,12 +105,12 @@
 
               </a>
             </li>
-            <li data-name="senior" class="layui-nav-item">
+            <!-- <li data-name="senior" class="layui-nav-item">
               <a href="javascript:;" lay-tips="上传数据" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
                 <a lay-href="/uploadDataOrg" style="padding-left:30px;">上传数据</a>
               </a>
-            </li>
+            </li> -->
             <li data-name="senior" class="layui-nav-item">
               <a href="javascript:;" lay-tips="身份审核" lay-direction="2">
                 <i class="layui-icon layui-icon-senior"></i>
