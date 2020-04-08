@@ -47,7 +47,7 @@
   <table style="display: inline-block" class="layui-hide" id="demo" lay-filter="getData"></table>
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="download"  style = "margin-top:10px;margin-left:30px;position:relative;float:left;">下载已授权数据</button>
+    <a class="layui-btn layui-btn-sm" href="http://localhost:3000/api/org/audit/download?file=健康数据.xlsx" id="downloadHref"  lay-event="download"  style = "margin-top:10px;margin-left:30px;position:relative;float:left;">下载已授权数据</a>
   </div>
 </script>
 </div>
@@ -190,6 +190,7 @@ export default{
 
 
     });
+    // $("#downloadHref").attr('href', '健康数据.xlsx')
   }
 }
 

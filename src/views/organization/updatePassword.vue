@@ -6,23 +6,29 @@
 
   <div class="layui-form">
     <div class="layui-form-item">
+      <div class="layui-inline" >
       <label class="layui-form-label">当前密码</label>
       <div class="layui-input-inline">
         <input type="password" id="oldPassword" name="oldPassword" lay-verify="required" lay-verType="tips" class="layui-input">
       </div>
+      </div>
     </div>
     <div class="layui-form-item">
+       <div class="layui-inline" >
       <label class="layui-form-label">新密码</label>
       <div class="layui-input-inline">
         <input type="password" name="password" lay-verify="required|pass" lay-verType="tips" autocomplete="off" id="LAY_password" class="layui-input">
       </div>
-      <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+      <!-- <div class="layui-form-mid layui-word-aux">6到16个字符</div> -->
     </div>
+     </div>
     <div class="layui-form-item">
+      <div class="layui-inline" >
       <label class="layui-form-label">确认新密码</label>
       <div class="layui-input-inline">
         <input type="password" name="repassword" lay-verify="required|repass" lay-verType="tips" autocomplete="off" class="layui-input">
       </div>
+    </div>
     </div>
     <div class="layui-form-item">
       <div class="layui-input-block">

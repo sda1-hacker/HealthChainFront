@@ -100,7 +100,7 @@ export default {
         if("200" === res._code){
           layui.use(['layer'], function(){layui.layer.msg(res._code)})
           vueObj.account = res._data.account,
-          document.getElementById("portrait").src = IMAGEPATH+ res._data.portrait,
+          document.getElementById("portrait").src = IMAGEPATH+ res._data.pic,
           document.getElementById("ethAddress").innerHTML = res._data.ethAddress,//不可编辑，不可上传
           vueObj.organizationName = res._data.organizationName,
           vueObj.introduction = res._data.introduction
