@@ -8,9 +8,6 @@
   <script type="text/html" id="handler">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
   </script>
-   <script type="text/html" id="certificateFiles">
-    <a class="layui-btn layui-btn-xs" href = " ">已上传，点击下载</a>
-  </script>
 </div>
 </template>
 <script>
@@ -47,7 +44,9 @@ export default {
           ,{field: 'introduction', title: '机构介绍', align:'center'}
           ,{field: 'tel', title: '机构电话', align:'center'}
           ,{field: 'certificateResult', title: '认证状态', align:'center'}
-          ,{title: '下载认证文件', align:'center', toolbar: '#certificateFiles', width: 140}
+          ,{title: '下载认证文件', align:'center', width: 140, templet:function(d){
+            return '<a class="layui-btn layui-btn-xs" href = " '+FILEPATH+d.certificateFiles+'">已上传，点击下载</a>'
+          }}
           ,{field: 'certificateTime', title: '认证时间', align:'center'}
           ,{ title:'操作', align:'center', toolbar: '#handler'}
 
