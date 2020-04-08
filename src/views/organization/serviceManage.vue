@@ -25,14 +25,23 @@ export default {
   },
   mounted(){
     //验证资格
-    if(JSON.parse(window.sessionStorage.getItem('userInfo')).type =="普通"){
-      layui.use('layer',function(){
-        layui.layer.msg("审核通过后的医疗机构才可以访问本页面，请先完成医疗机构审核",{
-    time: 5000})
-      })
-    }else{
-      this.initTable()
-    }
+    this.$http.post(http+'/api/org/getMyInfo', {token:window.sessionStorage.getItem('token')}).then(({data: res}) => {
+      if('200' === res._code){
+
+        if(res._data.type =="普通"){
+          layui.use('layer',function(){
+            layui.layer.msg("审核通过后的医疗机构才可以访问本页面，请先完成医疗机构审核",{
+            time: 5000})
+          })
+        }else{
+          this.initTable()
+        }
+      } else {
+        layer.close(index);
+        layer.msg('添加失败')
+      }
+    })
+
 
   },
   methods: {
