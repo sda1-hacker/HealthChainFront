@@ -135,9 +135,9 @@ export default {
   // JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress
    transfer(){
       const that = this;
-      this.$http.post( http + "/api/admin/transfer", {token: window.sessionStorage.getItem('token'),
+      this.$http.post( http + "/api/admin/transferToUser", {token: window.sessionStorage.getItem('token'),
       receiverEthAddr: this.recieveAddress, value: this.transactEth,
-      transactRemarks: this.transactRemarks}).then(function({data: res}){
+      transactRemarks: this.transactRemarks, sendAddress: JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress}).then(function({data: res}){
         if("200" === res._code){
           layui.use(['layer'], function(){layui.layer.msg('转账成功...')})
         }else {
