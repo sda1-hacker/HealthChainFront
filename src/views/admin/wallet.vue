@@ -60,7 +60,7 @@
 
 
     <!-- 所有交易记录 -->
-    <table class="layui-hide" id="test"></table>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
   </div>
 
 
@@ -94,8 +94,17 @@ export default {
           vueObj.balance = res._data.balance
 
           // 将列表数据显示在表格中
-          layui.use('table', function(){
-            var table = layui.table;
+          layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+            var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,carousel = layui.carousel //轮播
+            ,upload = layui.upload //上传
+            ,element = layui.element //元素操作
+            ,slider = layui.slider //滑块
+            ,$ = layui.$
+
             table.render({
               elem: '#test'
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
@@ -126,9 +135,9 @@ export default {
   // JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress
    transfer(){
       const that = this;
-      this.$http.post( http + "/api/admin/transfer", {token: window.sessionStorage.getItem('token'),
+      this.$http.post( http + "/api/admin/transferToUser", {token: window.sessionStorage.getItem('token'),
       receiverEthAddr: this.recieveAddress, value: this.transactEth,
-      transactRemarks: this.transactRemarks}).then(function({data: res}){
+      transactRemarks: this.transactRemarks, sendAddress: JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress}).then(function({data: res}){
         if("200" === res._code){
           layui.use(['layer'], function(){layui.layer.msg('转账成功...')})
         }else {
