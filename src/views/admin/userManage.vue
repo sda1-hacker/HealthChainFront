@@ -61,12 +61,12 @@
       </div>
     </div>
 
-    <div class="layui-form-item">
+    <!-- <div class="layui-form-item">
       <label class="layui-form-label">账户余额</label>
       <div class="layui-input-inline">
         <input type="text" name="email" autocomplete="off" class="layui-input" v-model="balance" readonly="readonly">
       </div>
-    </div>
+    </div> -->
 
     <div class="layui-form-item">
       <div class="layui-input-block">
@@ -140,7 +140,7 @@ export default {
                 ,{field:'address', title: '住址', align:'center'}
                 ,{field:'birth', title: '出生日期', align:'center'}
                 ,{field:'tel', title: '电话', align:'center'}
-                ,{field:'balance', title: '账户余额', align:'center'}
+                // ,{field:'balance', title: '账户余额', align:'center'}
                 ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo', align:'center'}  // 工具栏
               ]]
             });
@@ -161,7 +161,7 @@ export default {
                 vueObj.address = data.address,
                 vueObj.birth = data.birth,
                 vueObj.tel = data.tel,
-                vueObj.balance = data.balance
+                // vueObj.balance = data.balance
 
                 layer.open({
                   type: 1,
