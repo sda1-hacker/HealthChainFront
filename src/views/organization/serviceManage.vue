@@ -37,8 +37,7 @@ export default {
           this.initTable()
         }
       } else {
-        layer.close(index);
-        layer.msg('添加失败')
+        layer.msg('获取信息失败')
       }
     })
 

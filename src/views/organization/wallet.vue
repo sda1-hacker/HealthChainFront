@@ -172,6 +172,31 @@ export default {
 
  mounted: function() {
    this.initDta(this);
+   layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+            var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,$ = layui.$
+
+            table.render({
+              elem: '#test'
+              // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
+              ,url: http + "/api/org/getTransferHistory"
+              ,method:'post'
+              ,where:{token: window.sessionStorage.getItem('token')}
+              ,page: true //开启分页
+              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cols: [[
+                {field:'id',  title: 'id', sort: true}
+                ,{field:'sendAddress', title: '付款方地址'}
+                ,{field:'recieveAddress', title: '收款方地址'}
+                ,{field:'transactEth',  title: '交易金额'}
+                ,{field:'transactTime', title: '交易时间'}
+                ,{field:'transactRemarks', title: '备注'}
+              ]]
+            });
+          });
  }
 }
 </script>

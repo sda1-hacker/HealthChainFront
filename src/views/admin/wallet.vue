@@ -86,7 +86,7 @@ export default {
  methods: {
   initDta(vueObj){
       const that = this;
-      this.$http.post(http + "/api/admin/getWalletInfo", {token: window.sessionStorage.getItem('token'),
+      that.$http.post(http + "/api/admin/getWalletInfo", {token: window.sessionStorage.getItem('token'),
       ethAddress: JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress}).then(function({data: res}){
         if("200" === res._code){
 
@@ -94,16 +94,9 @@ export default {
           vueObj.balance = res._data.balance
 
           // 将列表数据显示在表格中
-          layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
-            var laydate = layui.laydate //日期
-            ,laypage = layui.laypage //分页
-            ,layer = layui.layer //弹层
-            ,table = layui.table //表格
-            ,carousel = layui.carousel //轮播
-            ,upload = layui.upload //上传
-            ,element = layui.element //元素操作
-            ,slider = layui.slider //滑块
-            ,$ = layui.$
+          layui.use(['table'], function(){
+
+            var table = layui.table //表格
 
             table.render({
               elem: '#test'
@@ -119,7 +112,6 @@ export default {
                 ,{field:'recieveAddress', title: '收款方地址'}
                 ,{field:'transactEth',  title: '交易金额'}
                 ,{field:'transactTime', title: '交易时间'}
-                ,{field:'transactAddr', title: '交易地址'}
                 ,{field:'transactRemarks', title: '备注'}
               ]]
             });
