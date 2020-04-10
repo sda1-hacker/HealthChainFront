@@ -1,41 +1,56 @@
 <template>
 <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
-    <div class="layui-form-item">
-      <label class="layui-form-label">单次授权消耗的以太币(wei)</label>
-      <div class="layui-input-inline">
+    <div class="layui-form-item itemcss">
+      <div class="layui-inline" >
+      <label class="layui-form-label labelcss">单次授权消耗的以太币(wei)</label>
+      <div class="layui-input-inline inlinecss">
         <input type="text" name="username" autocomplete="off" class="layui-input" v-model="payforHealthData" >
       </div>
     </div>
-
-    <div class="layui-form-item">
-      <label class="layui-form-label">授权有效时间间隔(秒)</label>
-      <div class="layui-input-inline">
+</div>
+    <div class="layui-form-item itemcss">
+      <div class="layui-inline" >
+      <label class="layui-form-label labelcss">授权有效时间间隔(秒)</label>
+      <div class="layui-input-inline inlinecss">
         <input type="text" name="username" autocomplete="off" class="layui-input" v-model="validSection" >
       </div>
     </div>
-
-    <div class="layui-form-item">
-      <label class="layui-form-label">上传有效时间间隔(秒)</label>
-      <div class="layui-input-inline">
+</div>
+    <div class="layui-form-item itemcss">
+      <div class="layui-inline" >
+      <label class="layui-form-label labelcss">上传有效时间间隔(秒)</label>
+      <div class="layui-input-inline inlinecss">
         <input type="text" name="username" autocomplete="off" class="layui-input" v-model="uploadSection">
       </div>
     </div>
-
-    <div class="layui-form-item">
-      <label class="layui-form-label">用户上传数据可获得的奖励(wei)</label>
-      <div class="layui-input-inline">
+</div>
+    <div class="layui-form-item itemcss" >
+      <div class="layui-inline" >
+      <label class="layui-form-label labelcss">用户上传数据可获得的奖励(wei)</label>
+      <div class="layui-input-inline inlinecss">
         <input type="text" name="username" autocomplete="off" class="layui-input" v-model="award" >
       </div>
     </div>
-
-    <div class="layui-form-item">
+</div>
+    <div class="layui-form-item ">
       <div class="layui-input-block">
         <button type="button" class="layui-btn" @click="updateContractInfo()" lay-submit lay-filter="setmyinfo">确认修改</button>
       </div>
     </div>
 </div>
 </template>
-
+<style scoped>
+  .labelcss{
+    width: 300px;
+  }
+  .itemcss{
+    margin-top: 50px;
+    margin-left:-200px;
+  }
+  .inlinecss{
+    width:370px;
+  }
+</style>
 <script>
 export default {
   data() {

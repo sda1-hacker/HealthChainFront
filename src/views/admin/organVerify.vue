@@ -37,6 +37,7 @@ export default {
           ,where:{token:window.sessionStorage.getItem('token'), certificateResult: '审核中'}
           ,page: true //开启分页
           ,toolbar: 'true'
+          ,cellMinWidth: 120
           ,cols: [[ //表头
           {field: 'account', title: '机构账号', align:'center'}
           ,{field: 'organizationName', title: '机构名', align:'center'}
