@@ -42,18 +42,17 @@ export default {
               ,method:'post'
               ,where:{token: window.sessionStorage.getItem('token'), serviceName: '', auditResult: '审核中'}
               ,page: true //开启分页
-              ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-              ,totalRow: true //开启合计行
+
               // , url: "" // url 访问 返回值是  {"code": 0,"msg": "","count": 100, "data": []}
-              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cellMinWidth: 120 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
               ,cols: [[
-                {field:'id', title: 'id', sort: true}
-                ,{field:'serviceName', title: '服务名称'}
-                ,{field:'serviceDetails', title: '服务详情'}
-                ,{field:'cost', title: '费用'}
-                ,{field:'oid', title: '机构id'}
-                ,{field:'auditResult', title: '审核结果'}
-                ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}  // 工具栏
+                {field:'id', title: 'ID', sort: true,align:'center'}
+                ,{field:'serviceName', title: '服务名称',align:'center'}
+                ,{field:'serviceDetails', title: '服务详情',align:'center'}
+                ,{field:'cost', title: '费用',align:'center'}
+                ,{field:'oid', title: '机构id',align:'center'}
+                ,{field:'auditResult', title: '审核结果',align:'center'}
+                ,{fixed: 'right',title:'操作', width: 180, align:'center', toolbar: '#barDemo',align:'center'}  // 工具栏
               ]]
             });
 

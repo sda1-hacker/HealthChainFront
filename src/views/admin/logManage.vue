@@ -27,13 +27,13 @@ export default {
         ,method:'post'
         ,where:{token:window.sessionStorage.getItem('token')}
         ,page: true //开启分页
-
+        ,cellMinWidth: 120
         ,cols: [[ //表头
-          {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-          ,{field: 'operateId', title: '操作人编号', width:80}
-          ,{field: 'operateDetails', title: '操作详情', width: 90, sort: true, totalRow: true}
-          ,{field: 'operateResult', title: '操作结果', width:80, sort: true}
-          ,{field: 'operateTime', title: '操作时间', width: 80, sort: true, totalRow: true}
+          {field: 'id', title: 'ID', sort: true, fixed: 'left',align:'center'}
+          ,{field: 'operateId', title: '操作人编号',align:'center'}
+          ,{field: 'operateDetails', title: '操作详情', sort: true, totalRow: true,align:'center'}
+          ,{field: 'operateResult', title: '操作结果', sort: true,align:'center'}
+          ,{field: 'operateTime', title: '操作时间', sort: true, totalRow: true,align:'center'}
           // ,{fixed: 'right', align:'center', title:'操作',toolbar: '#operate-barDemo', width:'17%'}
         ]]
       });
