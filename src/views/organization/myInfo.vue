@@ -98,7 +98,7 @@ export default {
 
       this.$http.post(http+"/api/org/getMyInfo", {token:window.sessionStorage.getItem('token')}).then(function({data: res}){
         if("200" === res._code){
-          layui.use(['layer'], function(){layui.layer.msg(res._code)})
+          // layui.use(['layer'], function(){layui.layer.msg(res._code)})
           vueObj.account = res._data.account,
           document.getElementById("portrait").src = IMAGEPATH+ res._data.pic,
           document.getElementById("ethAddress").innerHTML = res._data.ethAddress,//不可编辑，不可上传

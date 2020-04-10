@@ -160,7 +160,7 @@ export default {
       const that = this
       layui.use('table', function(){
         var layer = layui.layer;
-        layer.msg('字段不能为空')
+        // layer.msg('字段不能为空')
         if(service.serviceName === '' || service.serviceDetails === '' || service.cost === ''){
           layer.msg('字段不能为空')
           return
