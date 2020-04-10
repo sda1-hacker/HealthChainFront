@@ -56,13 +56,17 @@
 <script>
 export default{
   mounted(){
+
     layui.use(['laydate', 'laypage', 'layer', 'table'], function(){
     var laydate = layui.laydate //日期
     ,$ = layui.$
     ,laypage = layui.laypage //分页
     ,layer = layui.layer //弹层
     ,table = layui.table //表格
-
+    layer.msg('数据获取中...', {
+        icon: 16
+        ,shade: 0.5
+      });
     //范围时间选择控件
     laydate.render({
       elem: '#timeRange'
@@ -188,8 +192,9 @@ export default{
       }
     })//table结束
 
-
+    layer.closeAll('loading');
     });
+
     // $("#downloadHref").attr('href', '健康数据.xlsx')
   }
 }
