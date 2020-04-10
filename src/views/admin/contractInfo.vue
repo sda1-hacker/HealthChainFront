@@ -109,6 +109,10 @@ export default {
     },
 
     updateContractInfo(){
+      layer.msg('正在修改...', {
+        icon: 16
+        ,shade: 0.5
+      });
       const that = this;
       that.$http.post(http + "/api/admin/setContractInfo_payforHealthData", {token:window.sessionStorage.getItem('token'),
       payforHealthData: this.payforHealthData}).then(function({data: res}){
@@ -146,10 +150,12 @@ export default {
       that.$http.post(http + "/api/admin/setContractInfo_award", {token:window.sessionStorage.getItem('token'),
       award: this.award}).then(function({data: res}){
         if("200" === res._code){
+          layui.layer.closeAll('loading');
           layui.use(['layer'], function(){layui.layer.msg('修改成功..')})
           location.reload();
         }
         else{
+          layui.layer.closeAll('loading');
           layui.use(['layer'], function(){layui.layer.msg('数据加载失败...')})
         }
       })

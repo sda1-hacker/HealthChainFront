@@ -63,7 +63,10 @@ export default{
         return
       }
       //如何判断用户是否同意用户协议
-      layer.load(2);
+      layui.layer.msg('正在注册...', {
+        icon: 16
+        ,shade: 0.5
+      });
       //判断是否注册成功
       that.$http.post(http+'/api/org/register', {account:this.account,password:this.password,organizationName:this.organizationName}).then(function({data: res}){
         if('200' === res._code){
