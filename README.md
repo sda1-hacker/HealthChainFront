@@ -33,8 +33,8 @@ npm run serve
 │      │  ├─user
 │      │  ├─useradmin
 │      │  └─workorder
-│      ├─layui                             //ui文件
-│      │  ├─css
+│      ├─layui                               //ui文件
+│      │  ├─css                             //相关css样式
 │      │  │  └─modules
 │      │  │      ├─laydate
 │      │  │      │  └─default
