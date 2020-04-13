@@ -126,7 +126,7 @@ export default {
 
   // JSON.parse(window.sessionStorage.getItem('adminInfo')).ethAddress
    transfer(){
-     layui.layer.msg('正在修改...', {
+     layui.layer.msg('正在转账...', {
         icon: 16
         ,shade: 0.5
       });

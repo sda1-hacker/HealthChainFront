@@ -63,7 +63,7 @@ export default {
               type: 1,
               title: '添加管理员',
               skin: 'layui-layer-molv',
-              content: `<div style="padding: 15px 50px 15px 15px"><label for="account">账户：</label><input id="account"/><br><br>
+              content: `<div style="padding: 15px 50px 15px 15px"><label for="account">账户：</label><input id="account" autocomplete="off" /><br><br>
                         <label for="accopasswordunt">密码：</label><input id="password"/><br><br>
                         <!-- <label for="ethAddress">以太坊账号：</label><input id="ethAddress"/><br><br> -->
                         <label for="authority">权限：</label><select id="authority"><option value="normal">normal</option><option value="disable">disable</option>}</select></div>`,

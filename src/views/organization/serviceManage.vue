@@ -207,8 +207,8 @@ export default {
 
     // 获取服务对话框
     getServiceDialog(service, readonly=''){
-      return `<div style="padding: 15px 50px 15px 15px"><label for="serviceName">服务名称：</label><input id="serviceName" ${readonly} value="${service===undefined?'':service.serviceName}" /><br><br>
-             <label for="cost">服务费用：</label><input id="cost" type="number" min="0" ${readonly} value="${service===undefined?'':service.cost}"/><br><br>
+      return `<div style="padding: 15px 50px 15px 15px"><label for="serviceName">服务名称：</label><input id="serviceName" autocomplete="off"  ${readonly} value="${service===undefined?'':service.serviceName}" /><br><br>
+             <label for="cost">服务费用：</label><input id="cost" autocomplete="off" type="number" min="0" ${readonly} value="${service===undefined?'':service.cost}"/><br><br>
              <label for="serviceDetails">服务详情：</label><textarea id="serviceDetails" cols="25" rows="5" style="resize: none" ${readonly}>${service===undefined?'':service.serviceDetails}</textarea></div>`
     }
   }
